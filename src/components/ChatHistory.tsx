@@ -17,33 +17,31 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   onSpeakingChange,
   systemPrompt 
 }) => {
-  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
+  // Function to scroll to bottom of messages
   const scrollToBottom = () => {
-    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
+  // Scroll to bottom whenever messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  // Initial scroll to bottom when component mounts
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
+
   return (
-    <div className="flex-1 overflow-y-auto pb-4 pt-4">
+    <div 
+      ref={messagesContainerRef}
+      className="flex-1 overflow-y-auto pb-4 pt-4 flex flex-col-reverse"
+    >
       <div className="mx-auto max-w-3xl space-y-4 px-4">
-        <div className="flex justify-center mb-4">
-          <VoiceInterface 
-            onSpeakingChange={onSpeakingChange} 
-            systemPrompt={systemPrompt}
-          />
-        </div>
-
-        {messages.map((message) => (
-          <ChatMessage 
-            key={message.id} 
-            message={message} 
-          />
-        ))}
-
         {isLoading && (
           <div className="flex animate-pulse items-start gap-4 p-4">
             <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -55,7 +53,19 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
           </div>
         )}
 
-        <div ref={endOfMessagesRef} />
+        {messages.slice().reverse().map((message) => (
+          <ChatMessage 
+            key={message.id} 
+            message={message} 
+          />
+        ))}
+
+        <div className="flex justify-center mb-4">
+          <VoiceInterface 
+            onSpeakingChange={onSpeakingChange} 
+            systemPrompt={systemPrompt}
+          />
+        </div>
       </div>
     </div>
   );

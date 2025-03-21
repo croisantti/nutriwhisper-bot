@@ -73,11 +73,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
     }
   };
 
-  const handleSpeakingChange = (speaking: boolean) => {
-    // This function handles updates from the voice interface
-    console.log("AI speaking:", speaking);
-  };
-
   const handleVoiceButtonClick = () => {
     setVoiceMode(true);
     // Add haptic feedback if supported
@@ -91,7 +86,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
       <div className="animate-fade-in">
         <VoiceInterface
           onSpeakingChange={(speaking) => {
-            handleSpeakingChange(speaking);
             if (!speaking) {
               setVoiceMode(false);
             }
@@ -120,7 +114,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
           disabled={isInputDisabled}
         />
         
-        {/* Voice mode button with animations */}
+        {/* Voice mode button positioned next to send button */}
         <button
           type="button"
           onClick={handleVoiceButtonClick}
