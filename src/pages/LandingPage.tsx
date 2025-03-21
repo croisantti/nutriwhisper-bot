@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Leaf, 
   MessageSquare, 
-  Sparkles, 
   Utensils, 
-  LineChart, 
   ArrowRight 
 } from "lucide-react";
 
@@ -78,7 +76,7 @@ const LandingPage: React.FC = () => {
                 NutriWhisper uses AI to provide personalized nutrition advice tailored to your goals and preferences.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col items-center p-6 bg-card rounded-lg border shadow-sm transition-all hover:shadow-md">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
                   <MessageSquare className="h-6 w-6 text-primary" />
@@ -97,15 +95,6 @@ const LandingPage: React.FC = () => {
                   Get customized meal plans and nutrition recommendations based on your dietary preferences.
                 </p>
               </div>
-              <div className="flex flex-col items-center p-6 bg-card rounded-lg border shadow-sm transition-all hover:shadow-md">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
-                  <LineChart className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-medium mb-2">Track Progress</h3>
-                <p className="text-muted-foreground text-center">
-                  Monitor your nutrition goals and see your progress over time with intuitive tracking.
-                </p>
-              </div>
             </div>
           </div>
         </section>
@@ -115,7 +104,7 @@ const LandingPage: React.FC = () => {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center text-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-6">
-                <Sparkles className="h-6 w-6 text-primary" />
+                <Leaf className="h-6 w-6 text-primary" />
               </div>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
                 Begin Your Nutrition Journey Today
@@ -125,7 +114,7 @@ const LandingPage: React.FC = () => {
               </p>
               <Link to="/signup">
                 <Button size="lg" className="gap-2">
-                  Start Free Trial
+                  Sign Up Now - It's Free
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
