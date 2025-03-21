@@ -5,6 +5,7 @@ import { RealtimeChat } from '@/utils/audio';
 import { Loader2, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import VoiceFullscreenOverlay from './voice/VoiceFullscreenOverlay';
+import { cn } from '@/lib/utils';
 
 interface VoiceInterfaceProps {
   systemPrompt?: string;
@@ -60,8 +61,9 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
       setShowFullscreen(true);
       
       toast({
-        title: "Connected",
-        description: "Voice interface is ready",
+        title: "Voice activated",
+        description: "I'm listening...",
+        className: "bg-primary/10 border-primary",
       });
     } catch (error) {
       console.error('Error starting conversation:', error);
@@ -82,6 +84,11 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
     setIsListening(false);
     setShowFullscreen(false);
     onSpeakingChange(false);
+    
+    toast({
+      title: "Voice chat ended",
+      description: "Returning to text mode",
+    });
   };
 
   useEffect(() => {
@@ -97,12 +104,15 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
         <Button 
           onClick={startConversation}
           disabled={isConnecting}
-          className="rounded-full px-4 shadow-md hover:shadow-lg transition-all"
+          className={cn(
+            "rounded-full px-4 shadow-md hover:shadow-lg transition-all animate-fade-in",
+            isConnecting ? "bg-muted" : "bg-primary hover:bg-primary/90 hover:scale-105"
+          )}
         >
           {isConnecting ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Connecting...
+              <span className="animate-pulse">Connecting...</span>
             </>
           ) : (
             <>
