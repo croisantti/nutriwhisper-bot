@@ -2,17 +2,20 @@
 import React, { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import { Message } from "@/lib/types";
+import VoiceInterface from "./VoiceInterface";
 
 interface ChatHistoryProps {
   messages: Message[];
   isLoading: boolean;
   onSpeakingChange: (speaking: boolean) => void;
+  systemPrompt?: string;
 }
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({ 
   messages, 
   isLoading,
-  onSpeakingChange 
+  onSpeakingChange,
+  systemPrompt 
 }) => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +30,13 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   return (
     <div className="flex-1 overflow-y-auto pb-4 pt-4">
       <div className="mx-auto max-w-3xl space-y-4 px-4">
+        <div className="flex justify-center mb-4">
+          <VoiceInterface 
+            onSpeakingChange={onSpeakingChange} 
+            systemPrompt={systemPrompt}
+          />
+        </div>
+
         {messages.map((message) => (
           <ChatMessage 
             key={message.id} 

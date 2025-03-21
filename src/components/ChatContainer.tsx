@@ -60,6 +60,7 @@ const ChatContainer: React.FC = () => {
         messages={messages}
         isLoading={isLoading}
         onSpeakingChange={setIsSpeaking}
+        systemPrompt={systemPrompt}
       />
 
       <div className="border-t bg-background/80 backdrop-blur-sm px-4 py-4">
