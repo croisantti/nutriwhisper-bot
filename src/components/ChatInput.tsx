@@ -1,8 +1,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Mic, MicOff, Loader2 } from "lucide-react";
+import { Send, Mic, Loader2 } from "lucide-react";
 import { useAudioRecorder } from "@/hooks/useAudioRecorder";
 import { useToast } from "@/components/ui/use-toast";
+import VoiceInterface from "./VoiceInterface";
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -11,6 +12,7 @@ interface ChatInputProps {
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
   const [message, setMessage] = useState("");
+  const [voiceMode, setVoiceMode] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { 
     isRecording,
@@ -70,6 +72,31 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
     }
   };
 
+  const handleSpeakingChange = (speaking: boolean) => {
+    // This function handles updates from the voice interface
+    console.log("AI speaking:", speaking);
+  };
+
+  const handleVoiceButtonClick = () => {
+    setVoiceMode(true);
+  };
+
+  if (voiceMode) {
+    return (
+      <VoiceInterface
+        onSpeakingChange={(speaking) => {
+          handleSpeakingChange(speaking);
+          if (!speaking) {
+            setVoiceMode(false);
+          }
+        }}
+        onTranscript={(text) => {
+          console.log("Transcript received:", text);
+        }}
+      />
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -86,17 +113,14 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
           disabled={isInputDisabled}
         />
         
-        {/* Voice recording button */}
+        {/* Voice mode button */}
         <button
           type="button"
-          onClick={handleVoiceRecording}
+          onClick={handleVoiceButtonClick}
           disabled={isLoading}
-          className={`absolute bottom-3 right-12 rounded-full p-1.5 transition-all duration-200 
-          ${isRecording 
-            ? "bg-red-500 text-white animate-pulse" 
-            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"}`}
+          className="absolute bottom-3 right-12 rounded-full p-1.5 transition-all duration-200 bg-secondary text-secondary-foreground hover:bg-secondary/80"
         >
-          {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+          <Mic size={16} />
         </button>
         
         {/* Submit button */}

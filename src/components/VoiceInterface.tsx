@@ -2,10 +2,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { RealtimeChat } from '@/utils/audio';
-import { Loader2 } from 'lucide-react';
-import VoiceStatusIndicators from './voice/VoiceStatusIndicators';
-import TranscriptDisplay from './voice/TranscriptDisplay';
-import VoiceControlButtons from './voice/VoiceControlButtons';
+import { Loader2, Mic } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import VoiceFullscreenOverlay from './voice/VoiceFullscreenOverlay';
 
 interface VoiceInterfaceProps {
   systemPrompt?: string;
@@ -24,6 +23,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [transcriptBuffer, setTranscriptBuffer] = useState('');
+  const [showFullscreen, setShowFullscreen] = useState(false);
   const chatRef = useRef<RealtimeChat | null>(null);
 
   const handleMessage = (event: any) => {
@@ -57,6 +57,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
       chatRef.current = new RealtimeChat(handleMessage, handleTranscript, systemPrompt);
       await chatRef.current.init();
       setIsConnected(true);
+      setShowFullscreen(true);
       
       toast({
         title: "Connected",
@@ -79,6 +80,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
     setIsConnected(false);
     setIsSpeaking(false);
     setIsListening(false);
+    setShowFullscreen(false);
     onSpeakingChange(false);
   };
 
@@ -88,36 +90,42 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({
     };
   }, []);
 
+  // Simple button when not connected
+  if (!isConnected) {
+    return (
+      <div className="flex justify-center">
+        <Button 
+          onClick={startConversation}
+          disabled={isConnecting}
+          className="rounded-full px-4 shadow-md hover:shadow-lg transition-all"
+        >
+          {isConnecting ? (
+            <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Connecting...
+            </>
+          ) : (
+            <>
+              <Mic className="h-4 w-4 mr-2" />
+              Start Voice Chat
+            </>
+          )}
+        </Button>
+      </div>
+    );
+  }
+
+  // Show fullscreen overlay when in voice mode
   return (
-    <div className="flex flex-col items-center gap-2">
-      {isConnecting && (
-        <div className="flex items-center gap-2">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="text-sm">Connecting...</span>
-        </div>
+    <>
+      {showFullscreen && (
+        <VoiceFullscreenOverlay 
+          isListening={isListening}
+          isSpeaking={isSpeaking}
+          onCancel={endConversation}
+        />
       )}
-      
-      {isConnected && (
-        <div className="flex flex-col items-center gap-2">
-          <VoiceStatusIndicators 
-            isSpeaking={isSpeaking} 
-            isListening={isListening} 
-          />
-          
-          <TranscriptDisplay 
-            transcript={transcriptBuffer} 
-            visible={isConnected} 
-          />
-        </div>
-      )}
-      
-      <VoiceControlButtons 
-        isConnected={isConnected}
-        isConnecting={isConnecting}
-        onStartConversation={startConversation}
-        onEndConversation={endConversation}
-      />
-    </div>
+    </>
   );
 };
 
