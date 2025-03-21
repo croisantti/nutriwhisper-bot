@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Leafy } from "lucide-react";
+import { Leaf } from "lucide-react";
 import ChatContainer from "@/components/ChatContainer";
 
 const Index = () => {
@@ -10,7 +10,7 @@ const Index = () => {
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-              <Leafy className="h-5 w-5 text-primary" />
+              <Leaf className="h-5 w-5 text-primary" />
             </div>
             <span className="text-xl font-medium">NutriWhisper</span>
           </div>

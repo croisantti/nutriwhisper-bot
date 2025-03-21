@@ -2,7 +2,7 @@
 import React from "react";
 import { Message } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Leafy, User } from "lucide-react";
+import { Leaf, User } from "lucide-react";
 
 interface ChatMessageProps {
   message: Message;
@@ -20,7 +20,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     >
       {!isUser && (
         <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary/10 text-primary">
-          <Leafy className="h-5 w-5" />
+          <Leaf className="h-5 w-5" />
         </div>
       )}
       <div
