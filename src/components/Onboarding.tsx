@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -80,7 +79,9 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         description: "Your preferences have been saved successfully!",
       });
 
-      onComplete();
+      setTimeout(() => {
+        onComplete();
+      }, 500);
     } catch (error) {
       console.error("Error saving preferences:", error);
       toast({

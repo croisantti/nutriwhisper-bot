@@ -1,10 +1,8 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -42,7 +40,7 @@ const Login = () => {
           variant: "destructive",
         });
       } else {
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       toast({

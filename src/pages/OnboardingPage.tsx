@@ -31,7 +31,7 @@ const OnboardingPage: React.FC = () => {
         // If we have data, user has completed onboarding
         if (data) {
           setHasCompletedOnboarding(true);
-          navigate("/");
+          navigate("/dashboard");
         }
       } catch (error) {
         console.error("Error in checkOnboardingStatus:", error);
@@ -50,7 +50,8 @@ const OnboardingPage: React.FC = () => {
   }, [user, loading, navigate]);
 
   const handleOnboardingComplete = () => {
-    navigate("/");
+    // Redirect to dashboard instead of landing page
+    navigate("/dashboard");
   };
 
   if (loading || isLoading) {
