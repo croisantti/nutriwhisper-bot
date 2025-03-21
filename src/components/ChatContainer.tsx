@@ -4,6 +4,7 @@ import ChatInput from "./ChatInput";
 import ChatHistory from "./ChatHistory";
 import AIPromptEditor from "./AIPromptEditor";
 import { useChatSession } from "@/hooks/useChatSession";
+import { Badge } from "@/components/ui/badge";
 
 const ChatContainer: React.FC = () => {
   const {
@@ -11,6 +12,7 @@ const ChatContainer: React.FC = () => {
     isLoading,
     isFetchingHistory,
     systemPrompt,
+    userPreferences,
     handleSendMessage,
     updateSystemPrompt
   } = useChatSession();
@@ -25,7 +27,17 @@ const ChatContainer: React.FC = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex justify-end mb-2 px-4 pt-4">
+      <div className="flex justify-between items-center mb-2 px-4 pt-4">
+        {userPreferences && (
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">Using your preferences:</span>
+            {userPreferences.dietary_preferences.map((pref: string) => (
+              <Badge key={pref} variant="outline" className="bg-secondary/50">
+                {pref}
+              </Badge>
+            ))}
+          </div>
+        )}
         <AIPromptEditor 
           systemPrompt={systemPrompt}
           onUpdatePrompt={updateSystemPrompt}

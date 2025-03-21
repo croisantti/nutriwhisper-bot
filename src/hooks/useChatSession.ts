@@ -28,8 +28,46 @@ export const useChatSession = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingHistory, setIsFetchingHistory] = useState(true);
   const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT);
+  const [userPreferences, setUserPreferences] = useState<any>(null);
   const { toast } = useToast();
   const { user } = useAuth();
+
+  // Fetch user preferences from Supabase
+  useEffect(() => {
+    const fetchUserPreferences = async () => {
+      if (!user) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('user_preferences')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error) {
+          console.error("Error fetching user preferences:", error);
+        } else if (data) {
+          setUserPreferences(data);
+          
+          // Update system prompt with user preferences
+          const customizedPrompt = `${DEFAULT_SYSTEM_PROMPT}
+          
+This user has shared the following nutrition information:
+- Nutrition goals: ${data.nutrition_goals}
+- Dietary preferences: ${data.dietary_preferences.join(', ')}
+- Preferred coaching type: ${data.coaching_type}
+
+Tailor your advice based on this information while remaining empathetic and helpful.`;
+          
+          setSystemPrompt(customizedPrompt);
+        }
+      } catch (error) {
+        console.error("Error in fetchUserPreferences:", error);
+      }
+    };
+
+    fetchUserPreferences();
+  }, [user]);
 
   // Fetch chat history from Supabase
   useEffect(() => {
@@ -171,6 +209,7 @@ export const useChatSession = () => {
     isLoading,
     isFetchingHistory,
     systemPrompt,
+    userPreferences,
     handleSendMessage,
     updateSystemPrompt
   };
