@@ -8,6 +8,26 @@ import { fetchNutritionResponse } from "@/lib/openai";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+
+// Default prompt - this should match the one in openai.ts
+const DEFAULT_SYSTEM_PROMPT = `You are NutriWhisper, an expert AI nutritionist with a calm, supportive approach.
+- You provide science-based nutrition advice, healthy eating tips, and dietary recommendations.
+- Keep responses concise and helpful, focusing on evidence-based information.
+- When appropriate, suggest healthy alternatives or recipes.
+- Be empathetic but professional, avoiding medical diagnoses.
+- If you don't know something, admit it clearly rather than guessing.
+- Don't provide specific medical advice - suggest consulting with a healthcare provider when appropriate.`;
 
 const ChatContainer: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -20,6 +40,7 @@ const ChatContainer: React.FC = () => {
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingHistory, setIsFetchingHistory] = useState(true);
+  const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { user } = useAuth();
@@ -134,7 +155,7 @@ const ChatContainer: React.FC = () => {
 
     try {
       // Get AI response
-      const response = await fetchNutritionResponse(updatedMessages);
+      const response = await fetchNutritionResponse(updatedMessages, systemPrompt);
 
       // Add AI response
       const assistantMessage: Message = {
@@ -163,6 +184,14 @@ const ChatContainer: React.FC = () => {
     }
   };
 
+  const handleSavePrompt = (newPrompt: string) => {
+    setSystemPrompt(newPrompt);
+    toast({
+      title: "Prompt Updated",
+      description: "Your custom AI prompt has been saved.",
+    });
+  };
+
   if (isFetchingHistory) {
     return (
       <div className="flex h-full items-center justify-center">
@@ -175,6 +204,50 @@ const ChatContainer: React.FC = () => {
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto pb-4 pt-4">
         <div className="mx-auto max-w-3xl space-y-4 px-4">
+          <div className="flex justify-end mb-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  Edit AI Prompt
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[600px]">
+                <DialogHeader>
+                  <DialogTitle>Custom AI Prompt</DialogTitle>
+                </DialogHeader>
+                <div className="py-4">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Customize how the AI assistant responds by editing the system prompt below.
+                  </p>
+                  <Textarea 
+                    id="prompt" 
+                    defaultValue={systemPrompt}
+                    className="h-[300px] font-mono text-sm"
+                    placeholder="Enter system prompt for the AI"
+                    ref={(textarea) => {
+                      if (textarea) {
+                        textarea.value = systemPrompt;
+                      }
+                    }}
+                  />
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button onClick={() => {
+                      const textarea = document.getElementById('prompt') as HTMLTextAreaElement;
+                      handleSavePrompt(textarea.value);
+                    }}>
+                      Save Changes
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}

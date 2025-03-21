@@ -2,7 +2,19 @@
 import { Message } from './types';
 import { supabase } from "@/integrations/supabase/client";
 
-export async function fetchNutritionResponse(messages: Message[]): Promise<string> {
+// Define the system prompt as a separate constant for easy editing
+const DEFAULT_SYSTEM_PROMPT = `You are NutriWhisper, an expert AI nutritionist with a calm, supportive approach.
+- You provide science-based nutrition advice, healthy eating tips, and dietary recommendations.
+- Keep responses concise and helpful, focusing on evidence-based information.
+- When appropriate, suggest healthy alternatives or recipes.
+- Be empathetic but professional, avoiding medical diagnoses.
+- If you don't know something, admit it clearly rather than guessing.
+- Don't provide specific medical advice - suggest consulting with a healthcare provider when appropriate.`;
+
+export async function fetchNutritionResponse(
+  messages: Message[], 
+  customSystemPrompt?: string
+): Promise<string> {
   try {
     // Format messages for OpenAI API
     const formattedMessages = messages.map(msg => ({
@@ -14,13 +26,7 @@ export async function fetchNutritionResponse(messages: Message[]): Promise<strin
     if (formattedMessages.length === 0 || formattedMessages[0].role !== 'system') {
       formattedMessages.unshift({
         role: 'system',
-        content: `You are NutriWhisper, an expert AI nutritionist with a calm, supportive approach.
-        - You provide science-based nutrition advice, healthy eating tips, and dietary recommendations.
-        - Keep responses concise and helpful, focusing on evidence-based information.
-        - When appropriate, suggest healthy alternatives or recipes.
-        - Be empathetic but professional, avoiding medical diagnoses.
-        - If you don't know something, admit it clearly rather than guessing.
-        - Don't provide specific medical advice - suggest consulting with a healthcare provider when appropriate.`
+        content: customSystemPrompt || DEFAULT_SYSTEM_PROMPT
       });
     }
 
