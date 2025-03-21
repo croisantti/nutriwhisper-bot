@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { RealtimeChat } from '@/utils/audio';
+import { Loader2 } from 'lucide-react';
 import VoiceStatusIndicators from './voice/VoiceStatusIndicators';
 import TranscriptDisplay from './voice/TranscriptDisplay';
 import VoiceControlButtons from './voice/VoiceControlButtons';
