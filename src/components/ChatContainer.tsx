@@ -6,6 +6,8 @@ import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import { fetchNutritionResponse } from "@/lib/openai";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 const ChatContainer: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -17,8 +19,10 @@ const ChatContainer: React.FC = () => {
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingHistory, setIsFetchingHistory] = useState(true);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const scrollToBottom = () => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,6 +31,84 @@ const ChatContainer: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Fetch chat history from Supabase
+  useEffect(() => {
+    const fetchChatHistory = async () => {
+      if (!user) return;
+      
+      setIsFetchingHistory(true);
+      try {
+        const { data, error } = await supabase
+          .from('chat_history')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          // PGRST116 means no rows returned, which is fine for new users
+          console.error("Error fetching chat history:", error);
+          toast({
+            title: "Error",
+            description: "Failed to load chat history",
+            variant: "destructive",
+          });
+        } else if (data) {
+          const savedMessages = data.messages as Message[];
+          if (savedMessages.length > 0) {
+            setMessages(savedMessages);
+          }
+        }
+      } catch (error) {
+        console.error("Error in fetchChatHistory:", error);
+      } finally {
+        setIsFetchingHistory(false);
+      }
+    };
+
+    fetchChatHistory();
+  }, [user, toast]);
+
+  // Save messages to Supabase
+  const saveChatHistory = async (updatedMessages: Message[]) => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('chat_history')
+        .select('id')
+        .eq('user_id', user.id)
+        .limit(1)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error("Error checking chat history:", error);
+        return;
+      }
+
+      if (data) {
+        // Update existing chat history
+        await supabase
+          .from('chat_history')
+          .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
+          .eq('id', data.id);
+      } else {
+        // Create new chat history
+        await supabase
+          .from('chat_history')
+          .insert({ 
+            user_id: user.id, 
+            messages: updatedMessages,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+      }
+    } catch (error) {
+      console.error("Error saving chat history:", error);
+    }
+  };
 
   const handleSendMessage = async (content: string) => {
     if (isLoading) return;
@@ -39,12 +121,13 @@ const ChatContainer: React.FC = () => {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
 
     try {
       // Get AI response
-      const response = await fetchNutritionResponse([...messages, userMessage]);
+      const response = await fetchNutritionResponse(updatedMessages);
 
       // Add AI response
       const assistantMessage: Message = {
@@ -54,7 +137,13 @@ const ChatContainer: React.FC = () => {
         timestamp: new Date(),
       };
 
-      setMessages((prev) => [...prev, assistantMessage]);
+      const finalMessages = [...updatedMessages, assistantMessage];
+      setMessages(finalMessages);
+      
+      // Save to Supabase
+      if (user) {
+        saveChatHistory(finalMessages);
+      }
     } catch (error) {
       console.error("Error getting response:", error);
       toast({
@@ -66,6 +155,14 @@ const ChatContainer: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  if (isFetchingHistory) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="loading-dots">Loading your chat history</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full flex-col">
