@@ -104,23 +104,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
       className="glass-panel relative mb-4 mx-auto max-w-3xl rounded-2xl p-2 shadow-sm transition-all duration-300 ease-in-out focus-within:shadow-md animate-slide-up"
     >
       <div className="flex items-end">
-        <textarea
-          ref={textareaRef}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask about nutrition..."
-          className="max-h-[120px] min-h-[40px] w-full resize-none border-0 bg-transparent p-2 pr-20 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-sm"
-          disabled={isInputDisabled}
-        />
-        
-        {/* Voice mode button positioned next to send button */}
+        {/* Voice mode button moved next to the input field for better accessibility */}
         <button
           type="button"
           onClick={handleVoiceButtonClick}
           disabled={isLoading}
           className={cn(
-            "absolute bottom-3 right-12 rounded-full p-1.5 transition-all duration-200",
+            "rounded-full p-2 mx-1 transition-all duration-200",
             "hover:scale-110 hover:shadow-md",
             "bg-secondary text-secondary-foreground hover:bg-secondary/80"
           )}
@@ -128,6 +118,16 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
         >
           <Mic size={16} className="transition-transform hover:scale-110" />
         </button>
+        
+        <textarea
+          ref={textareaRef}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Ask about nutrition..."
+          className="max-h-[120px] min-h-[40px] w-full resize-none border-0 bg-transparent p-2 pr-12 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-sm"
+          disabled={isInputDisabled}
+        />
         
         {/* Submit button with animations */}
         <button

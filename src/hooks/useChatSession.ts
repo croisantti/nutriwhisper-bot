@@ -113,10 +113,6 @@ export const useChatSession = () => {
     }
   };
 
-  const updateSystemPrompt = (newPrompt: string) => {
-    setSystemPrompt(newPrompt);
-  };
-
   return {
     messages,
     isLoading,
@@ -125,7 +121,6 @@ export const useChatSession = () => {
     userPreferences,
     isSpeaking,
     setIsSpeaking,
-    handleSendMessage,
-    updateSystemPrompt
+    handleSendMessage
   };
 };

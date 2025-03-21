@@ -2,7 +2,6 @@
 import React from "react";
 import ChatInput from "./ChatInput";
 import ChatHistory from "./ChatHistory";
-import AIPromptEditor from "./AIPromptEditor";
 import { useChatSession } from "@/hooks/useChatSession";
 import { Badge } from "@/components/ui/badge";
 import { Volume2 } from "lucide-react";
@@ -16,8 +15,7 @@ const ChatContainer: React.FC = () => {
     userPreferences,
     isSpeaking,
     setIsSpeaking,
-    handleSendMessage,
-    updateSystemPrompt
+    handleSendMessage
   } = useChatSession();
 
   if (isFetchingHistory) {
@@ -30,30 +28,23 @@ const ChatContainer: React.FC = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex justify-between items-center mb-2 px-4 pt-4">
-        <div className="flex items-center gap-2 text-sm">
-          {isSpeaking && (
-            <Badge variant="outline" className="bg-green-500/10 text-green-500 animate-pulse flex items-center gap-1">
-              <Volume2 className="h-3 w-3" />
-              Speaking
-            </Badge>
-          )}
-          
-          {userPreferences && (
-            <>
-              <span className="text-muted-foreground">Using your preferences:</span>
-              {userPreferences.dietary_preferences.map((pref: string) => (
-                <Badge key={pref} variant="outline" className="bg-secondary/50">
-                  {pref}
-                </Badge>
-              ))}
-            </>
-          )}
-        </div>
-        <AIPromptEditor 
-          systemPrompt={systemPrompt}
-          onUpdatePrompt={updateSystemPrompt}
-        />
+      <div className="flex items-center mb-2 px-4 pt-4">
+        {isSpeaking && (
+          <Badge variant="outline" className="bg-green-500/10 text-green-500 animate-pulse flex items-center gap-1">
+            <Volume2 className="h-3 w-3" />
+            Speaking
+          </Badge>
+        )}
+        
+        {userPreferences && (
+          <div className="flex items-center gap-2 ml-2">
+            {userPreferences.dietary_preferences.map((pref: string) => (
+              <Badge key={pref} variant="outline" className="bg-secondary/50">
+                {pref}
+              </Badge>
+            ))}
+          </div>
+        )}
       </div>
 
       <ChatHistory 
