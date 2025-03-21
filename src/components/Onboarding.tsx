@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
@@ -67,7 +66,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from("user_preferences").insert({
+      const { error } = await supabase.from('user_preferences').insert({
         user_id: user.id,
         nutrition_goals: values.nutritionGoals,
         dietary_preferences: values.dietaryPreferences,

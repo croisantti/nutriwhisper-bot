@@ -16,10 +16,12 @@ const OnboardingPage: React.FC = () => {
       if (!user) return;
 
       try {
+        // Use a raw SQL query to check if user has completed onboarding
+        // This is a workaround until the types are updated
         const { data, error } = await supabase
-          .from("user_preferences")
-          .select("*")
-          .eq("user_id", user.id)
+          .from('user_preferences')
+          .select('*')
+          .eq('user_id', user.id)
           .single();
 
         if (error && error.code !== "PGRST116") {

@@ -60,6 +60,36 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          coaching_type: string
+          created_at: string
+          dietary_preferences: string[]
+          id: string
+          nutrition_goals: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          coaching_type: string
+          created_at?: string
+          dietary_preferences: string[]
+          id?: string
+          nutrition_goals: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          coaching_type?: string
+          created_at?: string
+          dietary_preferences?: string[]
+          id?: string
+          nutrition_goals?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
