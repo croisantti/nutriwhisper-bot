@@ -36,7 +36,16 @@ export async function fetchNutritionResponse(messages: Message[]): Promise<strin
       throw new Error(error.message);
     }
 
-    if (!data || !data.content) {
+    if (!data) {
+      throw new Error("Invalid response from AI service");
+    }
+
+    // Check for quota exceeded error
+    if (data.error === "API quota exceeded") {
+      return "I'm sorry, but our AI service is currently unavailable due to exceeding the API quota. Please try again later.";
+    }
+
+    if (!data.content) {
       throw new Error("Invalid response from AI service");
     }
 
