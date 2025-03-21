@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Message } from "@/lib/types";
+import { Message, serializeMessages, deserializeMessages } from "@/lib/types";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import { fetchNutritionResponse } from "@/lib/openai";
@@ -55,8 +55,9 @@ const ChatContainer: React.FC = () => {
             description: "Failed to load chat history",
             variant: "destructive",
           });
-        } else if (data) {
-          const savedMessages = data.messages as Message[];
+        } else if (data && data.messages) {
+          // Convert from Supabase JSON to Message[] type
+          const savedMessages = deserializeMessages(data.messages as any[]);
           if (savedMessages.length > 0) {
             setMessages(savedMessages);
           }
@@ -76,6 +77,9 @@ const ChatContainer: React.FC = () => {
     if (!user) return;
 
     try {
+      // Convert Message[] to format suitable for Supabase JSON
+      const serializedMessages = serializeMessages(updatedMessages);
+
       const { data, error } = await supabase
         .from('chat_history')
         .select('id')
@@ -92,7 +96,10 @@ const ChatContainer: React.FC = () => {
         // Update existing chat history
         await supabase
           .from('chat_history')
-          .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
+          .update({ 
+            messages: serializedMessages, 
+            updated_at: new Date().toISOString() 
+          })
           .eq('id', data.id);
       } else {
         // Create new chat history
@@ -100,7 +107,7 @@ const ChatContainer: React.FC = () => {
           .from('chat_history')
           .insert({ 
             user_id: user.id, 
-            messages: updatedMessages,
+            messages: serializedMessages,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           });
