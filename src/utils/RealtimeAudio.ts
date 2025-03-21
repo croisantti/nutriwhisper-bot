@@ -96,8 +96,18 @@ export class RealtimeChat {
       const EPHEMERAL_KEY = data.client_secret.value;
       console.log("Got ephemeral token successfully");
 
-      // Create peer connection
-      this.pc = new RTCPeerConnection();
+      // Create peer connection with appropriate configuration
+      this.pc = new RTCPeerConnection({
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+      });
+
+      // Add audio track to the peer connection
+      // This is critical for the SDP negotiation to include an audio section
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getAudioTracks().forEach(track => {
+        console.log("Adding audio track to peer connection");
+        this.pc.addTrack(track, stream);
+      });
 
       // Set up remote audio
       this.pc.ontrack = e => {
@@ -122,6 +132,9 @@ export class RealtimeChat {
       // Create and set local description
       const offer = await this.pc.createOffer();
       await this.pc.setLocalDescription(offer);
+
+      // Verify that the offer includes an audio section
+      console.log("SDP offer contains audio:", offer.sdp?.includes('m=audio'));
 
       // Connect to OpenAI's Realtime API
       const baseUrl = "https://api.openai.com/v1/realtime";
