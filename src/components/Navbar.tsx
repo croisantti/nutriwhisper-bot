@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { Leaf } from "lucide-react";
+import { Leaf, User } from "lucide-react";
 
 const Navbar = () => {
   const { user, signOut } = useAuth();
@@ -20,6 +20,10 @@ const Navbar = () => {
         <nav className="flex items-center gap-4">
           {user ? (
             <>
+              <Link to="/profile" className="flex items-center gap-1 text-sm">
+                <User className="h-4 w-4" />
+                <span>My Profile</span>
+              </Link>
               <Button variant="ghost" onClick={signOut}>
                 Sign Out
               </Button>
