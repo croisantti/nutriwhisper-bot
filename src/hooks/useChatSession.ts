@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Message, serializeMessages, deserializeMessages } from "@/lib/types";
@@ -7,7 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 
-// Default prompt - this should match the one in openai.ts
 export const DEFAULT_SYSTEM_PROMPT = `You are NutriWhisper, an expert AI nutritionist with a calm, supportive approach.
 - You provide science-based nutrition advice, healthy eating tips, and dietary recommendations.
 - Keep responses concise and helpful, focusing on evidence-based information.
@@ -29,10 +27,10 @@ export const useChatSession = () => {
   const [isFetchingHistory, setIsFetchingHistory] = useState(true);
   const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT);
   const [userPreferences, setUserPreferences] = useState<any>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
 
-  // Fetch user preferences from Supabase
   useEffect(() => {
     const fetchUserPreferences = async () => {
       if (!user) return;
@@ -49,7 +47,6 @@ export const useChatSession = () => {
         } else if (data) {
           setUserPreferences(data);
           
-          // Update system prompt with user preferences
           const customizedPrompt = `${DEFAULT_SYSTEM_PROMPT}
           
 This user has shared the following nutrition information:
@@ -69,7 +66,6 @@ Tailor your advice based on this information while remaining empathetic and help
     fetchUserPreferences();
   }, [user]);
 
-  // Fetch chat history from Supabase
   useEffect(() => {
     const fetchChatHistory = async () => {
       if (!user) return;
@@ -85,7 +81,6 @@ Tailor your advice based on this information while remaining empathetic and help
           .single();
 
         if (error && error.code !== 'PGRST116') {
-          // PGRST116 means no rows returned, which is fine for new users
           console.error("Error fetching chat history:", error);
           toast({
             title: "Error",
@@ -93,7 +88,6 @@ Tailor your advice based on this information while remaining empathetic and help
             variant: "destructive",
           });
         } else if (data && data.messages) {
-          // Convert from Supabase JSON to Message[] type
           const savedMessages = deserializeMessages(data.messages as any[]);
           if (savedMessages.length > 0) {
             setMessages(savedMessages);
@@ -109,12 +103,10 @@ Tailor your advice based on this information while remaining empathetic and help
     fetchChatHistory();
   }, [user, toast]);
 
-  // Save messages to Supabase
   const saveChatHistory = async (updatedMessages: Message[]) => {
     if (!user) return;
 
     try {
-      // Convert Message[] to format suitable for Supabase JSON
       const serializedMessages = serializeMessages(updatedMessages);
 
       const { data, error } = await supabase
@@ -130,7 +122,6 @@ Tailor your advice based on this information while remaining empathetic and help
       }
 
       if (data) {
-        // Update existing chat history
         await supabase
           .from('chat_history')
           .update({ 
@@ -139,7 +130,6 @@ Tailor your advice based on this information while remaining empathetic and help
           })
           .eq('id', data.id);
       } else {
-        // Create new chat history
         await supabase
           .from('chat_history')
           .insert({ 
@@ -157,7 +147,6 @@ Tailor your advice based on this information while remaining empathetic and help
   const handleSendMessage = async (content: string) => {
     if (isLoading) return;
 
-    // Add user message
     const userMessage: Message = {
       id: uuidv4(),
       role: "user",
@@ -170,10 +159,8 @@ Tailor your advice based on this information while remaining empathetic and help
     setIsLoading(true);
 
     try {
-      // Get AI response
       const response = await fetchNutritionResponse(updatedMessages, systemPrompt);
 
-      // Add AI response
       const assistantMessage: Message = {
         id: uuidv4(),
         role: "assistant",
@@ -184,7 +171,6 @@ Tailor your advice based on this information while remaining empathetic and help
       const finalMessages = [...updatedMessages, assistantMessage];
       setMessages(finalMessages);
       
-      // Save to Supabase
       if (user) {
         saveChatHistory(finalMessages);
       }
@@ -210,6 +196,8 @@ Tailor your advice based on this information while remaining empathetic and help
     isFetchingHistory,
     systemPrompt,
     userPreferences,
+    isSpeaking,
+    setIsSpeaking,
     handleSendMessage,
     updateSystemPrompt
   };

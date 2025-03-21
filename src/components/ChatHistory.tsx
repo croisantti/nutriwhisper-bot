@@ -6,9 +6,14 @@ import { Message } from "@/lib/types";
 interface ChatHistoryProps {
   messages: Message[];
   isLoading: boolean;
+  onSpeakingChange: (speaking: boolean) => void;
 }
 
-const ChatHistory: React.FC<ChatHistoryProps> = ({ messages, isLoading }) => {
+const ChatHistory: React.FC<ChatHistoryProps> = ({ 
+  messages, 
+  isLoading,
+  onSpeakingChange 
+}) => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -23,7 +28,10 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ messages, isLoading }) => {
     <div className="flex-1 overflow-y-auto pb-4 pt-4">
       <div className="mx-auto max-w-3xl space-y-4 px-4">
         {messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
+          <ChatMessage 
+            key={message.id} 
+            message={message} 
+          />
         ))}
 
         {isLoading && (
