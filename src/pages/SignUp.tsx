@@ -50,9 +50,9 @@ const SignUp = () => {
       } else {
         toast({
           title: "Success",
-          description: "Your account has been created. Please check your email to confirm your account.",
+          description: "Your account has been created. Complete your profile setup to continue.",
         });
-        navigate("/login");
+        navigate("/onboarding");
       }
     } catch (error) {
       toast({
