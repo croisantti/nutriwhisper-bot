@@ -51,15 +51,11 @@ export class RealtimeChat {
         this.onSessionCreated.bind(this)
       );
 
-      // Initialize audio recording
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getAudioTracks().forEach(track => {
-        console.log("Adding audio track to peer connection");
-        this.rtcConnection.addTrack(track, stream);
-      });
-
       // Connect to OpenAI
       await this.rtcConnection.connect(EPHEMERAL_KEY);
+
+      // Initialize audio recording once connection is established
+      this.startRecording();
 
     } catch (error) {
       console.error("Error initializing chat:", error);
@@ -85,21 +81,25 @@ export class RealtimeChat {
   }
 
   private onSessionCreated() {
-    // Start recording once session is created and configured
-    this.startRecording();
+    console.log("Session created successfully");
   }
 
   private async startRecording() {
-    this.recorder = new AudioProcessor((audioData) => {
-      if (this.rtcConnection?.isReady) {
-        this.rtcConnection.sendData({
-          type: 'input_audio_buffer.append',
-          audio: AudioProcessor.encodeAudioData(audioData)
-        });
-      }
-    });
-    await this.recorder.startRecording();
-    console.log("Audio recorder started");
+    try {
+      this.recorder = new AudioProcessor((audioData) => {
+        if (this.rtcConnection?.isReady) {
+          this.rtcConnection.sendData({
+            type: 'input_audio_buffer.append',
+            audio: AudioProcessor.encodeAudioData(audioData)
+          });
+        }
+      });
+      await this.recorder.startRecording();
+      console.log("Audio recorder started");
+    } catch (error) {
+      console.error("Error starting audio recorder:", error);
+      throw error;
+    }
   }
 
   async sendTextMessage(text: string) {

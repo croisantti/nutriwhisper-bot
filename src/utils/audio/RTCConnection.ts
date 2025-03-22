@@ -6,6 +6,7 @@ export class RTCConnection {
   private pc: RTCPeerConnection | null = null;
   private dc: RTCDataChannel | null = null;
   private audioEl: HTMLAudioElement;
+  private stream: MediaStream | null = null;
 
   constructor(
     private onMessage: (message: any) => void,
@@ -20,6 +21,15 @@ export class RTCConnection {
    */
   async connect(ephemeralToken: string): Promise<void> {
     try {
+      // Request microphone access first and store stream
+      this.stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        } 
+      });
+      
       // Create peer connection with appropriate configuration
       this.pc = new RTCPeerConnection({
         iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
@@ -30,6 +40,16 @@ export class RTCConnection {
         console.log("Received audio track from OpenAI");
         this.audioEl.srcObject = e.streams[0];
       };
+
+      // Add all audio tracks from the stream
+      if (this.stream) {
+        this.stream.getAudioTracks().forEach(track => {
+          console.log("Adding audio track to peer connection", track);
+          this.pc.addTrack(track, this.stream!);
+        });
+      } else {
+        throw new Error("Failed to get audio stream");
+      }
 
       // Set up data channel
       this.dc = this.pc.createDataChannel("oai-events");
@@ -47,6 +67,12 @@ export class RTCConnection {
       await this.pc.setLocalDescription(offer);
 
       // Verify that the offer includes an audio section
+      if (!offer.sdp?.includes('m=audio')) {
+        console.error("Generated SDP offer does not contain audio section");
+        console.log("SDP offer:", offer.sdp);
+        throw new Error("Generated SDP offer does not contain audio section");
+      }
+      
       console.log("SDP offer contains audio:", offer.sdp?.includes('m=audio'));
 
       // Connect to OpenAI's Realtime API
@@ -103,6 +129,10 @@ export class RTCConnection {
    * Close the WebRTC connection
    */
   close(): void {
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
     this.dc?.close();
     this.pc?.close();
   }
