@@ -1,9 +1,8 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Message } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Leaf, User, Volume2, VolumeX, Loader2 } from "lucide-react";
-import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { Leaf, User } from "lucide-react";
 
 interface ChatMessageProps {
   message: Message;
@@ -11,15 +10,6 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === "user";
-  const { speak, stop, isLoading, isPlaying } = useTextToSpeech();
-
-  const handleToggleAudio = () => {
-    if (isPlaying) {
-      stop();
-    } else {
-      speak(message.content, 'alloy'); // 'alloy' is a default voice
-    }
-  };
 
   return (
     <div
@@ -45,26 +35,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         <div className="prose prose-sm dark:prose-invert">
           <p className="m-0 leading-relaxed text-balance">{message.content}</p>
         </div>
-        
-        {/* Only show speak button for assistant messages */}
-        {!isUser && (
-          <button 
-            onClick={handleToggleAudio}
-            className={cn(
-              "absolute top-2 right-2 p-1 rounded-full transition-opacity opacity-0 group-hover:opacity-100 focus:opacity-100",
-              isPlaying ? "bg-red-500 text-white" : "bg-primary/10 hover:bg-primary/20"
-            )}
-            aria-label={isPlaying ? "Stop speaking" : "Speak message"}
-          >
-            {isLoading ? (
-              <Loader2 className="h-3 w-3 animate-spin" />
-            ) : isPlaying ? (
-              <VolumeX className="h-3 w-3" />
-            ) : (
-              <Volume2 className="h-3 w-3" />
-            )}
-          </button>
-        )}
       </div>
       {isUser && (
         <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-secondary text-secondary-foreground">
