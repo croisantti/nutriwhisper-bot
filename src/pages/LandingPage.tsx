@@ -1,9 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Leaf, MessageSquare, Utensils, ArrowRight } from "lucide-react";
-
 const LandingPage: React.FC = () => {
   return <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -33,9 +31,7 @@ const LandingPage: React.FC = () => {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="flex flex-col text-left md:w-1/2 space-y-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary mb-2">
-                  <Leaf className="h-6 w-6 text-primary-foreground" />
-                </div>
+                
                 <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
                   Your Personal Nutrition Companion
                 </h1>
@@ -55,11 +51,7 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
               <div className="md:w-1/2 flex justify-center">
-                <img 
-                  src="/lovable-uploads/79f2360b-c4f8-48ec-84a8-593dc34ef7e8.png" 
-                  alt="Person enjoying healthy food illustration" 
-                  className="max-w-full h-auto border-0 shadow-none" 
-                />
+                <img src="/lovable-uploads/79f2360b-c4f8-48ec-84a8-593dc34ef7e8.png" alt="Person enjoying healthy food illustration" className="max-w-full h-auto border-0 shadow-none" />
               </div>
             </div>
           </div>
