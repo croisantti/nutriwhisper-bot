@@ -24,12 +24,12 @@ const VoiceFullscreenOverlay: React.FC<VoiceFullscreenOverlayProps> = ({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/95 backdrop-blur-md animate-fade-in">
       <div className="text-center mb-16">
         {/* Simple text status indicator */}
         <div className={cn(
           "text-4xl font-bold mb-4",
-          isListening ? "text-primary" : isSpeaking ? "text-white" : "text-white/70"
+          isListening ? "text-primary" : isSpeaking ? "text-foreground" : "text-muted-foreground"
         )}>
           {isListening 
             ? "Listening..." 
@@ -39,7 +39,7 @@ const VoiceFullscreenOverlay: React.FC<VoiceFullscreenOverlayProps> = ({
           }
         </div>
         
-        <p className="text-white/70 text-lg mb-8">
+        <p className="text-muted-foreground text-lg mb-8">
           {!isListening && !isSpeaking && "Tap the button below to end the conversation"}
         </p>
       </div>
