@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import { Message } from "@/lib/types";
 import VoiceInterface from "./VoiceInterface";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatHistoryProps {
   messages: Message[];
@@ -17,12 +18,12 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   onSpeakingChange,
   systemPrompt 
 }) => {
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Function to scroll to bottom of messages
   const scrollToBottom = () => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -37,11 +38,8 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   }, []);
 
   return (
-    <div 
-      ref={messagesContainerRef}
-      className="flex-1 overflow-y-auto pb-4 pt-4 h-[calc(100vh-220px)]"
-    >
-      <div className="mx-auto max-w-3xl space-y-4 px-4">
+    <ScrollArea className="h-[calc(100vh-280px)] w-full">
+      <div className="mx-auto max-w-3xl space-y-4 px-4 py-4">
         <div className="flex justify-center mb-4">
           <VoiceInterface 
             onSpeakingChange={onSpeakingChange} 
@@ -66,8 +64,9 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
-    </div>
+    </ScrollArea>
   );
 };
 

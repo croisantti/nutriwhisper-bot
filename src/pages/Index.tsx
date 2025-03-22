@@ -5,7 +5,7 @@ import ChatContainer from "@/components/ChatContainer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-background to-secondary/20">
+    <div className="flex flex-col h-screen bg-gradient-to-b from-background to-secondary/20">
       <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
@@ -17,15 +17,15 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="flex flex-1 flex-col">
-        <div className="container flex flex-1 flex-col px-4 py-6 md:py-8">
-          <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border shadow-sm">
+      <main className="flex-1 overflow-hidden">
+        <div className="container h-full px-4 py-6 md:py-8">
+          <div className="flex flex-col h-full overflow-hidden rounded-2xl border shadow-sm">
             <ChatContainer />
           </div>
         </div>
       </main>
 
-      <footer className="border-t bg-background py-6">
+      <footer className="border-t bg-background py-4">
         <div className="container px-4 text-center text-sm text-muted-foreground">
           <p>
             NutriWhisper provides general nutrition information and is not a substitute for professional medical advice.

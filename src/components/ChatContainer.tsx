@@ -40,8 +40,8 @@ const ChatContainer: React.FC = () => {
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between mb-2 px-4 pt-4">
+    <div className="flex flex-col h-full">
+      <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-2">
           {isSpeaking && (
             <Badge variant="outline" className="bg-green-500/10 text-green-500 animate-pulse flex items-center gap-1">
@@ -92,14 +92,16 @@ const ChatContainer: React.FC = () => {
         </AlertDialog>
       </div>
 
-      <ChatHistory 
-        messages={messages}
-        isLoading={isLoading}
-        onSpeakingChange={setIsSpeaking}
-        systemPrompt={systemPrompt}
-      />
+      <div className="flex-1 overflow-hidden">
+        <ChatHistory 
+          messages={messages}
+          isLoading={isLoading}
+          onSpeakingChange={setIsSpeaking}
+          systemPrompt={systemPrompt}
+        />
+      </div>
 
-      <div className="border-t bg-background/80 backdrop-blur-sm px-4 py-4">
+      <div className="border-t bg-background/80 backdrop-blur-sm p-4 mt-auto">
         <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>
     </div>
