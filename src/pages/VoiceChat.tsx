@@ -28,7 +28,7 @@ const VoiceChat = () => {
             <div className="flex-1 flex items-center justify-center p-6">
               <div className="max-w-md w-full">
                 <div className="text-center mb-8">
-                  <h3 className="text-lg font-medium mb-2">Voice Conversation</h3>
+                  <h3 className="text-lg font-medium mb-2">Have a conversation with Yummi</h3>
                   <p className="text-muted-foreground">
                     This feature uses AI to have a natural voice conversation about nutrition.
                     Just click the button to start talking.
