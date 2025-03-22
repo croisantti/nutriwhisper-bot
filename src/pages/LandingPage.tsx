@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Leaf, MessageSquare, Utensils, ArrowRight } from "lucide-react";
+
 const LandingPage: React.FC = () => {
   return <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -53,7 +55,11 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
               <div className="md:w-1/2 flex justify-center">
-                <img src="/lovable-uploads/79f2360b-c4f8-48ec-84a8-593dc34ef7e8.png" alt="Person enjoying healthy food illustration" className="max-w-full h-auto" />
+                <img 
+                  src="/lovable-uploads/79f2360b-c4f8-48ec-84a8-593dc34ef7e8.png" 
+                  alt="Person enjoying healthy food illustration" 
+                  className="max-w-full h-auto border-0 shadow-none" 
+                />
               </div>
             </div>
           </div>
