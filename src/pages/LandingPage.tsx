@@ -6,7 +6,8 @@ import {
   Brain, 
   Utensils,
   MessageSquare, 
-  ArrowRight 
+  ArrowRight,
+  Leaf
 } from "lucide-react";
 
 const LandingPage: React.FC = () => {
