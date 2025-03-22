@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Message } from "@/lib/types";
@@ -13,7 +12,7 @@ export const useChatSession = () => {
   const initialMessage: Message = {
     id: uuidv4(),
     role: "assistant",
-    content: "Hello! I'm NutriWhisper, your AI nutrition assistant. How can I help with your nutrition questions today?",
+    content: "Hello! I'm Yumi, your AI nutrition assistant. How can I help with your nutrition questions today?",
     timestamp: new Date(),
   };
   
@@ -26,7 +25,6 @@ export const useChatSession = () => {
   const { toast } = useToast();
   const { user } = useAuth();
 
-  // Fetch user preferences and update system prompt
   useEffect(() => {
     const loadUserPreferences = async () => {
       if (!user) return;
@@ -42,7 +40,6 @@ export const useChatSession = () => {
     loadUserPreferences();
   }, [user]);
 
-  // Fetch chat history
   useEffect(() => {
     const loadChatHistory = async () => {
       if (!user) {
@@ -119,11 +116,10 @@ export const useChatSession = () => {
         await clearChatHistory(user.id);
       }
       
-      // Reset to initial welcome message
       const welcomeMessage: Message = {
         id: uuidv4(),
         role: "assistant",
-        content: "Chat history cleared. How can I help with your nutrition questions today?",
+        content: "Chat history cleared. I'm Yumi, your nutrition coach. How can I help with your nutrition questions today?",
         timestamp: new Date(),
       };
       

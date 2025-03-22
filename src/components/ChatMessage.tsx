@@ -30,7 +30,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     >
       {!isUser && (
         <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary/10 text-primary">
-          <Leaf className="h-5 w-5" />
+          <span className="font-medium text-sm">Y</span>
         </div>
       )}
       <div
@@ -41,6 +41,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             : "glass-effect"
         )}
       >
+        {!isUser && <div className="text-xs font-medium text-primary mb-1">Yumi</div>}
         <div className="prose prose-sm dark:prose-invert">
           <p className="m-0 leading-relaxed text-balance">{message.content}</p>
         </div>
