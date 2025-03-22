@@ -125,7 +125,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask about nutrition..."
-          className="max-h-[120px] min-h-[40px] w-full resize-none border-0 bg-transparent p-2 pr-12 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-sm"
+          className="max-h-[120px] min-h-[40px] w-full resize-none border-0 bg-transparent p-2 pr-12 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-sm focus:outline-none focus:border-primary/20 focus-visible:border-primary/20"
           disabled={isInputDisabled}
         />
         
