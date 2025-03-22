@@ -23,12 +23,26 @@ export const generatePersonalizedPrompt = (
 ): string => {
   if (!userPreferences) return basePrompt;
 
+  // Create a formatted string for coaching types
+  const coachingTypes = Array.isArray(userPreferences.coaching_type) 
+    ? userPreferences.coaching_type.join(', ') 
+    : userPreferences.coaching_type;
+
+  // Combine standard dietary preferences with any custom ones
+  const dietaryPrefs = Array.isArray(userPreferences.dietary_preferences)
+    ? userPreferences.dietary_preferences.join(', ')
+    : userPreferences.dietary_preferences;
+  
+  const customDietaryPrefs = userPreferences.custom_dietary_preferences 
+    ? `\n- Custom dietary notes: ${userPreferences.custom_dietary_preferences}`
+    : '';
+
   return `${basePrompt}
           
 This user has shared the following nutrition information:
 - Nutrition goals: ${userPreferences.nutrition_goals}
-- Dietary preferences: ${userPreferences.dietary_preferences.join(', ')}
-- Preferred coaching type: ${userPreferences.coaching_type}
+- Dietary preferences: ${dietaryPrefs}${customDietaryPrefs}
+- Preferred coaching type: ${coachingTypes}
 
-Tailor your advice based on this information while remaining empathetic and helpful.`;
+Tailor your advice based on this information while remaining empathetic and helpful. Focus especially on their coaching preferences, providing guidance in the areas they've selected.`;
 };
