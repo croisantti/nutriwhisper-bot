@@ -62,8 +62,9 @@ export type Database = {
       }
       user_preferences: {
         Row: {
-          coaching_type: string
+          coaching_type: string[]
           created_at: string
+          custom_dietary_preferences: string | null
           dietary_preferences: string[]
           id: string
           nutrition_goals: string
@@ -71,8 +72,9 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          coaching_type: string
+          coaching_type: string[]
           created_at?: string
+          custom_dietary_preferences?: string | null
           dietary_preferences: string[]
           id?: string
           nutrition_goals: string
@@ -80,8 +82,9 @@ export type Database = {
           user_id: string
         }
         Update: {
-          coaching_type?: string
+          coaching_type?: string[]
           created_at?: string
+          custom_dietary_preferences?: string | null
           dietary_preferences?: string[]
           id?: string
           nutrition_goals?: string

@@ -26,7 +26,7 @@ export function useOnboardingSubmit(onComplete: () => void) {
         user_id: user.id,
         nutrition_goals: values.nutritionGoals,
         dietary_preferences: values.dietaryPreferences,
-        custom_dietary_preferences: values.customDietaryPreferences,
+        custom_dietary_preferences: values.customDietaryPreferences || '',
         coaching_type: values.coachingType,
       });
 

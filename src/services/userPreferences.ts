@@ -19,7 +19,12 @@ export const fetchUserPreferences = async (userId: string) => {
       return null;
     }
     
-    return data;
+    return {
+      ...data,
+      coaching_type: data.coaching_type || [],
+      dietary_preferences: data.dietary_preferences || [],
+      custom_dietary_preferences: data.custom_dietary_preferences || ""
+    };
   } catch (error) {
     console.error("Error in fetchUserPreferences:", error);
     return null;

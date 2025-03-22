@@ -85,7 +85,7 @@ const ProfileForm: React.FC = () => {
         .update({
           nutrition_goals: values.nutritionGoals,
           dietary_preferences: values.dietaryPreferences,
-          custom_dietary_preferences: values.customDietaryPreferences,
+          custom_dietary_preferences: values.customDietaryPreferences || "",
           coaching_type: values.coachingType,
           updated_at: new Date().toISOString()
         })
