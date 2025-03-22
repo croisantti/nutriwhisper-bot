@@ -19,7 +19,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       )}
     >
       {!isUser && (
-        <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary/10 text-primary">
+        <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary/10 text-[#FFBE98]">
           <span className="font-medium text-sm">Y</span>
         </div>
       )}
@@ -31,7 +31,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             : "glass-effect"
         )}
       >
-        {!isUser && <div className="text-xs font-medium text-primary mb-1">Yummi</div>}
+        {!isUser && <div className="text-xs font-medium text-[#FFBE98] mb-1">Yummi</div>}
         <div className="prose prose-sm dark:prose-invert">
           <p className="m-0 leading-relaxed text-balance">{message.content}</p>
         </div>
