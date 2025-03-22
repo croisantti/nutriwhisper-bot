@@ -1,7 +1,14 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Leaf, MessageSquare, Utensils, ArrowRight } from "lucide-react";
+import { 
+  Leaf, 
+  MessageSquare, 
+  Utensils, 
+  ArrowRight 
+} from "lucide-react";
+
 const LandingPage: React.FC = () => {
   return <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -26,10 +33,10 @@ const LandingPage: React.FC = () => {
       </header>
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-background to-secondary/50 py-20 md:py-32">
+        {/* Hero Section - Changed background to white */}
+        <section className="relative overflow-hidden bg-white py-20 md:py-32">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row items-center gap-8 bg-neutral-50 bg-[#ffffff]">
+            <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="flex flex-col text-left md:w-1/2 space-y-6">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary mb-2">
                   <Leaf className="h-6 w-6 text-primary-foreground" />
@@ -53,7 +60,11 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
               <div className="md:w-1/2 flex justify-center">
-                <img src="/lovable-uploads/52963379-9d9a-4a4a-b4fd-80806f40ddcd.png" alt="Person enjoying healthy food" className="max-w-full h-auto" />
+                <img
+                  src="/lovable-uploads/cb5f5c61-844b-4972-9276-8e0612eff870.png"
+                  alt="Person enjoying healthy food"
+                  className="max-w-full h-auto rounded-lg shadow-md border border-accent/50"
+                />
               </div>
             </div>
           </div>
