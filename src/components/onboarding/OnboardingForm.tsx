@@ -20,7 +20,8 @@ export function OnboardingForm({ onComplete }: OnboardingFormProps) {
     defaultValues: {
       nutritionGoals: "",
       dietaryPreferences: [],
-      coachingType: "",
+      customDietaryPreferences: "",
+      coachingType: [],
     },
   });
 
