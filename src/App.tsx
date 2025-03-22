@@ -14,7 +14,6 @@ import ProfilePage from "./pages/ProfilePage";
 import VoiceChat from "./pages/VoiceChat";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Navbar from "./components/Navbar";
 
 const queryClient = new QueryClient();
 
@@ -34,10 +33,7 @@ const App = () => (
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <>
-                    <Navbar />
-                    <Index />
-                  </>
+                  <Index />
                 </ProtectedRoute>
               }
             />
