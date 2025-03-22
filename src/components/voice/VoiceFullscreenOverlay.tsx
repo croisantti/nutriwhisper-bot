@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { X, Mic, MicOff, AudioWaveform } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -25,67 +25,111 @@ const VoiceFullscreenOverlay: React.FC<VoiceFullscreenOverlayProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-md animate-fade-in">
-      {/* Dynamic waveform visualization */}
-      <div className="relative w-48 h-48 mb-8">
+      {/* Voice visualization animation */}
+      <div className="relative w-64 h-64 mb-8">
+        {/* Expanding rings animation */}
         <div className={cn(
-          "absolute inset-0 rounded-full transition-all duration-500",
-          isListening ? "bg-primary/20 scale-100" : "bg-white/10 scale-95",
+          "absolute inset-0 rounded-full",
+          isListening ? "bg-primary/20" : "bg-white/10",
           isSpeaking && "bg-white/20"
         )}>
-          {/* Animated concentric circles */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {isListening && (
-              <div className="absolute w-64 h-64 rounded-full bg-primary/5 animate-pulse duration-1000"></div>
-            )}
+          {/* Animated pulse rings */}
+          <div className="absolute inset-0 w-full h-full flex items-center justify-center">
             <div className={cn(
-              "w-40 h-40 rounded-full transition-all duration-500",
-              isListening ? "bg-primary/10 scale-110" : "bg-white/10 scale-100",
-              isSpeaking && "bg-white/15 animate-pulse"
-            )}></div>
+              "absolute w-full h-full rounded-full transform scale-50 opacity-30",
+              isListening ? "bg-primary animate-ping" : isSpeaking ? "bg-white/30 animate-ping" : "bg-white/20"
+            )} />
             <div className={cn(
-              "w-32 h-32 rounded-full transition-all duration-500", 
-              isListening ? "bg-primary/15" : "bg-white/20",
-              isSpeaking && "bg-white/25 animate-pulse"
-            )}></div>
+              "absolute w-full h-full rounded-full transform scale-75 opacity-20",
+              isListening ? "bg-primary animate-ping animation-delay-300" : isSpeaking ? "bg-white/30 animate-ping animation-delay-300" : "bg-white/10"
+            )} />
             <div className={cn(
-              "w-24 h-24 rounded-full transition-all duration-300", 
-              isListening ? "bg-primary/20" : "bg-white/30",
-              isSpeaking && "bg-white/40 animate-pulse"
-            )}></div>
-            <div className={cn(
-              "w-16 h-16 rounded-full transition-all duration-300 flex items-center justify-center",
-              isListening ? "bg-primary/30" : "bg-white/40",
-              isSpeaking && "bg-white/50 animate-pulse"
-            )}>
-              {/* Audio visualization */}
-              {isListening ? (
-                <div className="flex items-center gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <div 
-                      key={i} 
+              "absolute w-full h-full rounded-full transform scale-90 opacity-10",
+              isListening ? "bg-primary animate-ping animation-delay-600" : isSpeaking ? "bg-white/20 animate-ping animation-delay-600" : "bg-white/5"
+            )} />
+            
+            {/* Central visualization */}
+            <div className="relative w-32 h-32 flex items-center justify-center">
+              {/* Voice wave visualization */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="flex items-end justify-center gap-1.5 h-24 w-full">
+                  {[...Array(9)].map((_, i) => (
+                    <div
+                      key={i}
                       className={cn(
-                        "w-1 bg-white rounded-full",
-                        "animate-[pulse_0.6s_ease-in-out_infinite]",
+                        "rounded-full",
+                        isListening ? "bg-primary" : "bg-white/70",
+                        (isListening || isSpeaking) ? "animate-audio-pulse" : "h-1"
                       )}
-                      style={{ 
-                        height: `${Math.random() * 12 + 4}px`,
-                        animationDelay: `${i * 0.1}s` 
-                      }}
-                    ></div>
+                      style={{
+                        width: i % 2 === 0 ? '4px' : '3px',
+                        '--pulse-height': `${12 + Math.abs(i - 4) * 3}px`,
+                        animationDelay: `${i * 0.1}s`,
+                        animationDuration: `${0.8 + Math.random() * 0.4}s`,
+                        height: (isListening || isSpeaking) ? 'auto' : '2px',
+                        opacity: (isListening || isSpeaking) ? 1 : 0.5
+                      } as React.CSSProperties}
+                    />
                   ))}
                 </div>
-              ) : isSpeaking ? (
-                <AudioWaveform className="h-6 w-6 text-white animate-pulse" />
-              ) : (
-                <MicOff className="h-6 w-6 text-white/70" />
-              )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Audio wave visualization outside the circles */}
+        {/* Circular waveform visualization */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className={cn(
+            "w-44 h-44 rounded-full flex items-center justify-center",
+            isListening ? "bg-primary/5 border border-primary/20" : "bg-white/5 border border-white/10",
+            isSpeaking && "bg-white/10 border-white/20"
+          )}>
+            <div className={cn(
+              "w-36 h-36 rounded-full flex items-center justify-center",
+              isListening ? "bg-primary/10 border border-primary/30" : "bg-white/10 border border-white/20",
+              isSpeaking && "bg-white/15 border-white/30"
+            )}>
+              <div className={cn(
+                "w-28 h-28 rounded-full flex items-center justify-center",
+                isListening ? "bg-primary/15" : "bg-white/15",
+                isSpeaking && "bg-white/20"
+              )}>
+                {/* Dynamic waveform */}
+                <div className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden">
+                  <div className="flex flex-row items-end justify-center gap-1 h-16 w-full">
+                    {[...Array(12)].map((_, i) => {
+                      const isActive = isListening || isSpeaking;
+                      const baseHeight = isActive ? 6 + Math.random() * 14 : 2;
+                      
+                      return (
+                        <div
+                          key={i}
+                          className={cn(
+                            "rounded-full transition-all duration-200",
+                            isListening ? "bg-primary" : "bg-white/80"
+                          )}
+                          style={{
+                            width: '2px',
+                            height: `${baseHeight}px`,
+                            animationDuration: `${0.7 + Math.random() * 0.6}s`,
+                            animationDelay: `${i * 0.05}s`,
+                            transform: `rotate(${i * 30}deg) translateY(-5px)`,
+                            transformOrigin: 'bottom',
+                            animation: isActive ? 'wave 1.2s infinite ease-in-out' : 'none'
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom audio wave visualization */}
         {(isListening || isSpeaking) && (
-          <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-64 h-24 flex items-center justify-center">
+          <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-64 h-16 flex items-center justify-center">
             <div className="flex items-end justify-center gap-1 h-16 w-full">
               {[...Array(16)].map((_, i) => (
                 <div
@@ -93,15 +137,15 @@ const VoiceFullscreenOverlay: React.FC<VoiceFullscreenOverlayProps> = ({
                   className={cn(
                     "w-1.5 rounded-full bg-gradient-to-t",
                     isListening ? "from-primary/70 to-primary/30" : "from-white/70 to-white/30",
-                    "animate-[pulse_1s_ease-in-out_infinite]"
+                    "animate-[wave_1.2s_ease-in-out_infinite]"
                   )}
                   style={{
                     height: `${
                       Math.sin((i / 16) * Math.PI) * (isListening || isSpeaking ? 24 : 4) + 
-                      (isListening || isSpeaking ? Math.random() * 12 : 0)
+                      (isListening || isSpeaking ? Math.random() * 10 : 0)
                     }px`,
                     animationDelay: `${i * 0.05}s`,
-                    animationDuration: `${0.5 + Math.random() * 0.5}s`
+                    animationDuration: `${0.7 + Math.random() * 0.6}s`
                   }}
                 ></div>
               ))}
