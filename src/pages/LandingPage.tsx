@@ -3,9 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
-  Leaf, 
+  Brain, 
+  Utensils,
   MessageSquare, 
-  Utensils, 
   ArrowRight 
 } from "lucide-react";
 
@@ -16,8 +16,11 @@ const LandingPage: React.FC = () => {
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-              <Leaf className="h-4 w-4 text-primary-foreground" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-purple-600">
+              <div className="relative">
+                <Brain className="h-4 w-4 text-primary-foreground absolute" style={{ opacity: 0.8 }} />
+                <Utensils className="h-4 w-4 text-primary-foreground" />
+              </div>
             </div>
             <span className="text-lg font-medium">NutriWhisper</span>
           </Link>
@@ -38,8 +41,11 @@ const LandingPage: React.FC = () => {
         <section className="relative overflow-hidden bg-gradient-to-b from-background to-secondary/20 py-20 md:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary mb-6">
-                <Leaf className="h-6 w-6 text-primary-foreground" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary to-purple-600 mb-6">
+                <div className="relative">
+                  <Brain className="h-6 w-6 text-primary-foreground absolute" style={{ opacity: 0.8 }} />
+                  <Utensils className="h-6 w-6 text-primary-foreground" />
+                </div>
               </div>
               <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl mb-6">
                 Your Personal Nutrition Companion

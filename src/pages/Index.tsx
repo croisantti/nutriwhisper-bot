@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Leaf } from "lucide-react";
+import { Brain, Utensils } from "lucide-react";
 import ChatContainer from "@/components/ChatContainer";
 
 const Index = () => {
@@ -9,8 +9,11 @@ const Index = () => {
       <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-              <Leaf className="h-5 w-5 text-primary" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-purple-600">
+              <div className="relative">
+                <Brain className="h-5 w-5 text-primary-foreground absolute" style={{ opacity: 0.8 }} />
+                <Utensils className="h-5 w-5 text-primary-foreground" />
+              </div>
             </div>
             <span className="text-xl font-medium">NutriWhisper</span>
           </div>
