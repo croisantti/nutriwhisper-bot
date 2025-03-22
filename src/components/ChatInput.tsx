@@ -14,6 +14,34 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { toast } = useToast();
 
+  // Auto-focus when component mounts
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
+
+  // Re-focus when user returns to the page
+  useEffect(() => {
+    const handleFocus = () => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        handleFocus();
+      }
+    });
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleFocus);
+    };
+  }, []);
+
   // Auto-resize textarea
   useEffect(() => {
     const textarea = textareaRef.current;
