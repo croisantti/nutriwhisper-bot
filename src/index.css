@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -101,4 +102,19 @@
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Override browser default outline styles */
+textarea:focus,
+input:focus {
+  outline: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Custom focus styles that match our theme */
+.form-input:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(var(--primary), 0.2) !important;
 }
