@@ -120,13 +120,33 @@ const LandingPage: React.FC = () => {
       </main>
 
       <footer className="border-t bg-background py-6">
-        <div className="container px-4 text-center text-sm text-muted-foreground">
-          <p className="mb-2">
+        <div className="container px-4 text-center">
+          <p className="mb-2 text-sm text-muted-foreground">
             Yummi provides general nutrition information and is not a substitute for professional medical advice.
           </p>
-          <p className="text-xs">
+          <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Yummi. All rights reserved.
           </p>
+          <div className="mt-4 flex items-center justify-center space-x-1 text-xs text-muted-foreground/70">
+            <span>Powered by</span>
+            <a 
+              href="https://openai.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-primary/80 hover:text-primary transition-colors"
+            >
+              OpenAI
+            </a>
+            <span>&</span>
+            <a 
+              href="https://lovable.dev" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-primary/80 hover:text-primary transition-colors"
+            >
+              Lovable
+            </a>
+          </div>
         </div>
       </footer>
     </div>;
