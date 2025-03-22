@@ -25,7 +25,8 @@ export const coachingOptions = [
   { id: "nutritional-advice", label: "Nutritional advice and education" },
   { id: "diet-optimization", label: "Diet optimization for specific goals" },
   { id: "health-management", label: "Managing health conditions through diet" },
-  { id: "weight-management", label: "Weight management" },
-  { id: "sports-nutrition", label: "Sports nutrition" },
-  { id: "mindful-eating", label: "Mindful eating practices" },
+  { id: "healthy-habits", label: "Building sustainable healthy habits" },
+  { id: "specialty-diets", label: "Guidance for plant-based or specialty diets" },
+  { id: "emotional-eating", label: "Support with emotional or stress-related eating" },
+  { id: "family-nutrition", label: "Family or child-friendly nutrition coaching" },
 ];

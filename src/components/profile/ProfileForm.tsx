@@ -23,7 +23,8 @@ const ProfileForm: React.FC = () => {
     defaultValues: {
       nutritionGoals: "",
       dietaryPreferences: [],
-      coachingType: "",
+      customDietaryPreferences: "",
+      coachingType: [],
     },
   });
 
@@ -51,8 +52,9 @@ const ProfileForm: React.FC = () => {
           // Set form values with user's saved preferences
           form.reset({
             nutritionGoals: data.nutrition_goals,
-            dietaryPreferences: data.dietary_preferences,
-            coachingType: data.coaching_type,
+            dietaryPreferences: data.dietary_preferences || [],
+            customDietaryPreferences: data.custom_dietary_preferences || "",
+            coachingType: data.coaching_type || [],
           });
         }
       } catch (error) {
@@ -83,6 +85,7 @@ const ProfileForm: React.FC = () => {
         .update({
           nutrition_goals: values.nutritionGoals,
           dietary_preferences: values.dietaryPreferences,
+          custom_dietary_preferences: values.customDietaryPreferences,
           coaching_type: values.coachingType,
           updated_at: new Date().toISOString()
         })
