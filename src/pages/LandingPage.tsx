@@ -29,7 +29,7 @@ const LandingPage: React.FC = () => {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-background to-secondary/50 py-20 md:py-32">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="flex flex-col md:flex-row items-center gap-8 bg-neutral-50 bg-[#ffffff]">
               <div className="flex flex-col text-left md:w-1/2 space-y-6">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary mb-2">
                   <Leaf className="h-6 w-6 text-primary-foreground" />
