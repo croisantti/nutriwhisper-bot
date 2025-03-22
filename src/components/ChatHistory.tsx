@@ -45,8 +45,8 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   return (
     <ScrollArea className="h-[calc(100vh-280px)] w-full" ref={scrollAreaRef}>
       <div className="mx-auto max-w-3xl space-y-4 px-4 py-4">
-        <div className="pt-8 pb-4">
-          {/* Increased top padding to prevent first message from being cut off */}
+        <div className="pt-16 pb-4">
+          {/* Significantly increased top padding to ensure first message is fully visible */}
         </div>
         
         {messages.map((message) => (
