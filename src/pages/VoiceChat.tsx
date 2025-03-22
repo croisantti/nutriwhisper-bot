@@ -1,15 +1,11 @@
-
 import React, { useState } from "react";
 import { Leaf, Volume2 } from "lucide-react";
 import VoiceInterface from "@/components/VoiceInterface";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
-
 const VoiceChat = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
-
-  return (
-    <div className="flex flex-col h-screen bg-gradient-to-b from-background to-secondary/20">
+  return <div className="flex flex-col h-screen bg-gradient-to-b from-background to-secondary/20">
       <Navbar />
       
       <main className="flex-1 overflow-hidden">
@@ -17,17 +13,15 @@ const VoiceChat = () => {
           <div className="flex flex-col h-full overflow-hidden rounded-2xl border shadow-sm">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-semibold">Voice Interface</h2>
+                <h2 className="text-xl font-semibold">Voice Chat</h2>
                 <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
                   BETA
                 </Badge>
                 
-                {isSpeaking && (
-                  <Badge variant="outline" className="bg-green-500/10 text-green-500 animate-pulse flex items-center gap-1">
+                {isSpeaking && <Badge variant="outline" className="bg-green-500/10 text-green-500 animate-pulse flex items-center gap-1">
                     <Volume2 className="h-3 w-3" />
                     Speaking
-                  </Badge>
-                )}
+                  </Badge>}
               </div>
             </div>
 
@@ -41,9 +35,7 @@ const VoiceChat = () => {
                   </p>
                 </div>
 
-                <VoiceInterface 
-                  onSpeakingChange={setIsSpeaking}
-                />
+                <VoiceInterface onSpeakingChange={setIsSpeaking} />
               </div>
             </div>
           </div>
@@ -57,8 +49,6 @@ const VoiceChat = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default VoiceChat;
