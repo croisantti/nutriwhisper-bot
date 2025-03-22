@@ -13,7 +13,7 @@ export const useChatSession = () => {
   const initialMessage: Message = {
     id: uuidv4(),
     role: "assistant",
-    content: "Hello! I'm Yumi, your AI nutrition assistant. How can I help with your nutrition questions today?",
+    content: "Hello! I'm Yummi, your AI nutrition assistant. How can I help with your nutrition questions today?",
     timestamp: new Date(),
   };
   
@@ -120,7 +120,7 @@ export const useChatSession = () => {
       const welcomeMessage: Message = {
         id: uuidv4(),
         role: "assistant",
-        content: "Chat history cleared. I'm Yumi, your nutrition coach. How can I help with your nutrition questions today?",
+        content: "Chat history cleared. I'm Yummi, your nutrition coach. How can I help with your nutrition questions today?",
         timestamp: new Date(),
       };
       

@@ -41,7 +41,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             : "glass-effect"
         )}
       >
-        {!isUser && <div className="text-xs font-medium text-primary mb-1">Yumi</div>}
+        {!isUser && <div className="text-xs font-medium text-primary mb-1">Yummi</div>}
         <div className="prose prose-sm dark:prose-invert">
           <p className="m-0 leading-relaxed text-balance">{message.content}</p>
         </div>
