@@ -8,6 +8,8 @@ import {
   Utensils, 
   ArrowRight 
 } from "lucide-react";
+import HealthyEatingIllustration from "@/components/illustrations/HealthyEatingIllustration";
+import HealthyMealPrepIllustration from "@/components/illustrations/HealthyMealPrepIllustration";
 
 const LandingPage: React.FC = () => {
   return (
@@ -37,26 +39,31 @@ const LandingPage: React.FC = () => {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-background to-secondary/20 py-20 md:py-32">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary mb-6">
-                <Leaf className="h-6 w-6 text-primary-foreground" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary mb-6">
+                  <Leaf className="h-6 w-6 text-primary-foreground" />
+                </div>
+                <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl mb-6">
+                  Your Personal Nutrition Companion
+                </h1>
+                <p className="max-w-[700px] text-balance text-lg text-muted-foreground md:text-xl mb-8">
+                  Get personalized nutrition guidance and meal plans tailored to your unique needs and preferences.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/signup">
+                    <Button size="lg" className="gap-2 group">
+                      Get Started
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Link to="/login">
+                    <Button size="lg" variant="outline">Sign In</Button>
+                  </Link>
+                </div>
               </div>
-              <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl mb-6">
-                Your Personal Nutrition Companion
-              </h1>
-              <p className="max-w-[700px] text-balance text-lg text-muted-foreground md:text-xl mb-8">
-                Get personalized nutrition guidance and meal plans tailored to your unique needs and preferences.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/signup">
-                  <Button size="lg" className="gap-2 group">
-                    Get Started
-                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Link to="/login">
-                  <Button size="lg" variant="outline">Sign In</Button>
-                </Link>
+              <div className="hidden md:flex justify-center">
+                <HealthyEatingIllustration />
               </div>
             </div>
           </div>
@@ -76,24 +83,29 @@ const LandingPage: React.FC = () => {
                 NutriWhisper uses AI to provide personalized nutrition advice tailored to your goals and preferences.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex flex-col items-center p-6 bg-card rounded-lg border shadow-sm transition-all hover:shadow-md">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
-                  <MessageSquare className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-medium mb-2">AI-Powered Coaching</h3>
-                <p className="text-muted-foreground text-center">
-                  Chat with our nutrition AI for real-time advice and answers to your nutrition questions.
-                </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="order-2 md:order-1">
+                <HealthyMealPrepIllustration />
               </div>
-              <div className="flex flex-col items-center p-6 bg-card rounded-lg border shadow-sm transition-all hover:shadow-md">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
-                  <Utensils className="h-6 w-6 text-primary" />
+              <div className="space-y-8 order-1 md:order-2">
+                <div className="flex flex-col p-6 bg-card rounded-lg border shadow-sm transition-all hover:shadow-md">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
+                    <MessageSquare className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">AI-Powered Coaching</h3>
+                  <p className="text-muted-foreground">
+                    Chat with our nutrition AI for real-time advice and answers to your nutrition questions.
+                  </p>
                 </div>
-                <h3 className="text-xl font-medium mb-2">Personalized Plans</h3>
-                <p className="text-muted-foreground text-center">
-                  Get customized meal plans and nutrition recommendations based on your dietary preferences.
-                </p>
+                <div className="flex flex-col p-6 bg-card rounded-lg border shadow-sm transition-all hover:shadow-md">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
+                    <Utensils className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Personalized Plans</h3>
+                  <p className="text-muted-foreground">
+                    Get customized meal plans and nutrition recommendations based on your dietary preferences.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
