@@ -1,17 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  Leaf, 
-  MessageSquare, 
-  Utensils, 
-  ArrowRight 
-} from "lucide-react";
-
+import { Leaf, MessageSquare, Utensils, ArrowRight } from "lucide-react";
 const LandingPage: React.FC = () => {
-  return (
-    <div className="flex min-h-screen flex-col">
+  return <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between">
@@ -61,11 +53,7 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
               <div className="md:w-1/2 flex justify-center">
-                <img
-                  src="/lovable-uploads/52963379-9d9a-4a4a-b4fd-80806f40ddcd.png"
-                  alt="Person enjoying healthy food"
-                  className="max-w-full h-auto rounded-lg shadow-md border border-accent/50"
-                />
+                <img src="/lovable-uploads/52963379-9d9a-4a4a-b4fd-80806f40ddcd.png" alt="Person enjoying healthy food" className="max-w-full h-auto" />
               </div>
             </div>
           </div>
@@ -142,8 +130,6 @@ const LandingPage: React.FC = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default LandingPage;
