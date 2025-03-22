@@ -39,7 +39,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   return (
     <div 
       ref={messagesContainerRef}
-      className="flex-1 overflow-y-auto pb-4 pt-4"
+      className="flex-1 overflow-y-auto pb-4 pt-4 h-[calc(100vh-220px)]"
     >
       <div className="mx-auto max-w-3xl space-y-4 px-4">
         <div className="flex justify-center mb-4">
