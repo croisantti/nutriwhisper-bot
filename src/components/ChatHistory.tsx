@@ -37,7 +37,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   }, []);
 
   return (
-    <ScrollArea className="h-[calc(100vh-280px)] w-full">
+    <ScrollArea className="h-[calc(100vh-320px)] w-full">
       <div className="mx-auto max-w-3xl space-y-4 px-4 py-4 pt-24">
         {messages.map((message) => (
           <ChatMessage 
