@@ -50,7 +50,7 @@ const Navbar = () => {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
             <Leaf className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-lg font-bold">NutriWhisper</span>
+          <span className="text-lg font-bold">Yummi</span>
         </Link>
 
         {isMobile ? (

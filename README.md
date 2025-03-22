@@ -1,4 +1,9 @@
+
 # Welcome to your Lovable project
+
+## About Yummi
+
+Yummi is an AI-powered nutrition assistant that provides personalized dietary guidance and meal planning.
 
 ## Project info
 

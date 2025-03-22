@@ -18,7 +18,7 @@ const Index = () => {
       <footer className="border-t bg-background py-4">
         <div className="container px-4 text-center text-sm text-muted-foreground">
           <p>
-            NutriWhisper provides general nutrition information and is not a substitute for professional medical advice.
+            Yummi provides general nutrition information and is not a substitute for professional medical advice.
           </p>
         </div>
       </footer>

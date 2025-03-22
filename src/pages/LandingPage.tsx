@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,7 @@ const LandingPage: React.FC = () => {
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
               <Leaf className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-lg font-medium">NutriWhisper</span>
+            <span className="text-lg font-medium">Yummi</span>
           </Link>
 
           <nav className="flex items-center gap-4">
@@ -68,7 +69,7 @@ const LandingPage: React.FC = () => {
                 Smart Nutrition for Everyone
               </h2>
               <p className="max-w-[700px] text-muted-foreground">
-                NutriWhisper uses AI to provide personalized nutrition advice tailored to your goals and preferences.
+                Yummi uses AI to provide personalized nutrition advice tailored to your goals and preferences.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -121,10 +122,10 @@ const LandingPage: React.FC = () => {
       <footer className="border-t bg-background py-6">
         <div className="container px-4 text-center text-sm text-muted-foreground">
           <p className="mb-2">
-            NutriWhisper provides general nutrition information and is not a substitute for professional medical advice.
+            Yummi provides general nutrition information and is not a substitute for professional medical advice.
           </p>
           <p className="text-xs">
-            © {new Date().getFullYear()} NutriWhisper. All rights reserved.
+            © {new Date().getFullYear()} Yummi. All rights reserved.
           </p>
         </div>
       </footer>

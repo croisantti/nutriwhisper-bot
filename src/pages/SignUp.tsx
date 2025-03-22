@@ -73,7 +73,7 @@ const SignUp = () => {
             <Leaf className="h-6 w-6 text-primary-foreground" />
           </div>
           <h1 className="text-3xl font-bold">Create your account</h1>
-          <p className="text-muted-foreground">Sign up for NutriWhisper to get started</p>
+          <p className="text-muted-foreground">Sign up for Yummi to get started</p>
         </div>
 
         <div className="bg-card p-6 shadow-md sm:rounded-lg sm:p-8">

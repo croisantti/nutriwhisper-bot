@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -60,7 +61,7 @@ const Login = () => {
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
             <Leaf className="h-6 w-6 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold">Welcome to NutriWhisper</h1>
+          <h1 className="text-3xl font-bold">Welcome to Yummi</h1>
           <p className="text-muted-foreground">Sign in to your account to continue</p>
         </div>
 
