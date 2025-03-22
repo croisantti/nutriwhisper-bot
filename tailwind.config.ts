@@ -105,6 +105,15 @@ export default {
 				'shimmer': {
 					'0%': { backgroundPosition: '-1000px 0' },
 					'100%': { backgroundPosition: '1000px 0' }
+				},
+				'wave': {
+					'0%, 100%': { transform: 'scaleY(0.5)' },
+					'50%': { transform: 'scaleY(1.0)' }
+				},
+				'audio-pulse': {
+					'0%': { height: '5px' },
+					'50%': { height: 'var(--pulse-height, 20px)' },
+					'100%': { height: '5px' }
 				}
 			},
 			animation: {
@@ -115,7 +124,9 @@ export default {
 				'slide-up': 'slide-up 0.4s ease-out',
 				'slide-down': 'slide-down 0.4s ease-out',
 				'pulse-light': 'pulse-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				'shimmer': 'shimmer 2s infinite linear'
+				'shimmer': 'shimmer 2s infinite linear',
+				'wave': 'wave 1.2s ease-in-out infinite',
+				'audio-pulse': 'audio-pulse 1s ease-in-out infinite'
 			},
 			boxShadow: {
 				'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',

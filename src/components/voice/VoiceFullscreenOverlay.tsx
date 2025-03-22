@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { X, Mic, MicOff } from 'lucide-react';
+import { X, Mic, MicOff, AudioWaveform } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -57,21 +57,57 @@ const VoiceFullscreenOverlay: React.FC<VoiceFullscreenOverlayProps> = ({
               isListening ? "bg-primary/30" : "bg-white/40",
               isSpeaking && "bg-white/50 animate-pulse"
             )}>
-              {/* Mic icon */}
+              {/* Audio visualization */}
               {isListening ? (
-                <Mic className="h-6 w-6 text-white animate-pulse" />
-              ) : isSpeaking ? (
-                <div className="flex flex-col space-y-1 items-center">
-                  <div className="w-1 h-3 bg-white rounded-full animate-[pulse_1s_ease-in-out_infinite]"></div>
-                  <div className="w-1 h-5 bg-white rounded-full animate-[pulse_1s_ease-in-out_0.2s_infinite]"></div>
-                  <div className="w-1 h-2 bg-white rounded-full animate-[pulse_1s_ease-in-out_0.4s_infinite]"></div>
+                <div className="flex items-center gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={cn(
+                        "w-1 bg-white rounded-full",
+                        "animate-[pulse_0.6s_ease-in-out_infinite]",
+                      )}
+                      style={{ 
+                        height: `${Math.random() * 12 + 4}px`,
+                        animationDelay: `${i * 0.1}s` 
+                      }}
+                    ></div>
+                  ))}
                 </div>
+              ) : isSpeaking ? (
+                <AudioWaveform className="h-6 w-6 text-white animate-pulse" />
               ) : (
                 <MicOff className="h-6 w-6 text-white/70" />
               )}
             </div>
           </div>
         </div>
+
+        {/* Audio wave visualization outside the circles */}
+        {(isListening || isSpeaking) && (
+          <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-64 h-24 flex items-center justify-center">
+            <div className="flex items-end justify-center gap-1 h-16 w-full">
+              {[...Array(16)].map((_, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    "w-1.5 rounded-full bg-gradient-to-t",
+                    isListening ? "from-primary/70 to-primary/30" : "from-white/70 to-white/30",
+                    "animate-[pulse_1s_ease-in-out_infinite]"
+                  )}
+                  style={{
+                    height: `${
+                      Math.sin((i / 16) * Math.PI) * (isListening || isSpeaking ? 24 : 4) + 
+                      (isListening || isSpeaking ? Math.random() * 12 : 0)
+                    }px`,
+                    animationDelay: `${i * 0.05}s`,
+                    animationDuration: `${0.5 + Math.random() * 0.5}s`
+                  }}
+                ></div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Status text with animations */}
