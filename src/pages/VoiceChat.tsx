@@ -13,7 +13,7 @@ const VoiceChat = () => {
           <div className="flex flex-col h-full overflow-hidden rounded-2xl border shadow-sm">
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-semibold">Voice Chat</h2>
+                <h2 className="text-xl font-semibold">AI Voice Chat</h2>
                 <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
                   BETA
                 </Badge>
