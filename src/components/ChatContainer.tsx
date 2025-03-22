@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import ChatHistory from "./ChatHistory";
 import { useChatSession } from "@/hooks/useChatSession";
@@ -30,6 +30,29 @@ const ChatContainer: React.FC = () => {
     handleSendMessage,
     handleClearChat
   } = useChatSession();
+  
+  // After chat operations, ensure input is focused
+  const focusInput = () => {
+    setTimeout(() => {
+      const chatInput = document.querySelector('textarea');
+      if (chatInput instanceof HTMLTextAreaElement) {
+        chatInput.focus();
+      }
+    }, 100);
+  };
+
+  // Enhanced send message handler that ensures focus is maintained
+  const handleSend = (message: string) => {
+    handleSendMessage(message);
+    focusInput();
+  };
+  
+  // Focus input on initial load
+  useEffect(() => {
+    if (!isFetchingHistory) {
+      focusInput();
+    }
+  }, [isFetchingHistory]);
 
   if (isFetchingHistory) {
     return (
@@ -82,7 +105,10 @@ const ChatContainer: React.FC = () => {
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction 
-                onClick={handleClearChat}
+                onClick={() => {
+                  handleClearChat();
+                  focusInput();
+                }}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
                 Clear
@@ -102,7 +128,7 @@ const ChatContainer: React.FC = () => {
       </div>
 
       <div className="border-t bg-background/80 backdrop-blur-sm p-4 mt-auto">
-        <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+        <ChatInput onSendMessage={handleSend} isLoading={isLoading} />
       </div>
     </div>
   );

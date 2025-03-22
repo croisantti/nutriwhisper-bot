@@ -23,6 +23,14 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      
+      // Attempt to focus any available input after scrolling
+      setTimeout(() => {
+        const chatInput = document.querySelector('textarea');
+        if (chatInput instanceof HTMLTextAreaElement) {
+          chatInput.focus();
+        }
+      }, 100);
     }
   };
 

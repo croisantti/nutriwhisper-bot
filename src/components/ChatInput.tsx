@@ -21,7 +21,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
     }
   }, []);
 
-  // Re-focus when user returns to the page
+  // Re-focus when user returns to the page or after loading completes
   useEffect(() => {
     const handleFocus = () => {
       if (textareaRef.current) {
@@ -56,6 +56,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
     if (message.trim() && !isLoading) {
       onSendMessage(message);
       setMessage("");
+      
+      // Re-focus the textarea after sending a message
+      setTimeout(() => {
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+        }
+      }, 0);
     }
   };
 
@@ -84,6 +91,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, isLoading }) => {
             boxShadow: 'none'
           }}
           disabled={isLoading}
+          autoFocus
         />
         
         {/* Submit button with animations */}
