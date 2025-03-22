@@ -1,11 +1,11 @@
+
 import React from "react";
-import { Leaf } from "lucide-react";
 import ChatContainer from "@/components/ChatContainer";
+import Navbar from "@/components/Navbar";
+
 const Index = () => {
   return <div className="flex flex-col h-screen bg-gradient-to-b from-background to-secondary/20">
-      <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-md">
-        
-      </header>
+      <Navbar />
 
       <main className="flex-1 overflow-hidden">
         <div className="container h-full px-4 py-6 md:py-8">
