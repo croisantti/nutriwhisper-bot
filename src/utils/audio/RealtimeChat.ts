@@ -1,7 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { AudioRecorder } from "./AudioRecorder";
-import { encodeAudioData } from "./AudioUtils";
+import { AudioProcessor } from "./AudioProcessor";
 import { RTCConnection } from "./RTCConnection";
 import { SessionManager } from "./SessionManager";
 
@@ -11,7 +10,7 @@ import { SessionManager } from "./SessionManager";
 export class RealtimeChat {
   private rtcConnection: RTCConnection | null = null;
   private sessionManager: SessionManager | null = null;
-  private recorder: AudioRecorder | null = null;
+  private recorder: AudioProcessor | null = null;
   private systemPrompt: string;
 
   constructor(
@@ -91,15 +90,15 @@ export class RealtimeChat {
   }
 
   private async startRecording() {
-    this.recorder = new AudioRecorder((audioData) => {
+    this.recorder = new AudioProcessor((audioData) => {
       if (this.rtcConnection?.isReady) {
         this.rtcConnection.sendData({
           type: 'input_audio_buffer.append',
-          audio: encodeAudioData(audioData)
+          audio: AudioProcessor.encodeAudioData(audioData)
         });
       }
     });
-    await this.recorder.start();
+    await this.recorder.startRecording();
     console.log("Audio recorder started");
   }
 
@@ -112,7 +111,7 @@ export class RealtimeChat {
 
   disconnect() {
     console.log("Disconnecting from Realtime API");
-    this.recorder?.stop();
+    this.recorder?.stopRecording();
     this.rtcConnection?.close();
   }
 }

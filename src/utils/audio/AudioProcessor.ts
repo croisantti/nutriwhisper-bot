@@ -1,8 +1,8 @@
 
 /**
- * Handles microphone recording and audio processing
+ * Manages audio recording, processing, and encoding
  */
-export class AudioRecorder {
+export class AudioProcessor {
   private stream: MediaStream | null = null;
   private audioContext: AudioContext | null = null;
   private processor: ScriptProcessorNode | null = null;
@@ -10,7 +10,10 @@ export class AudioRecorder {
 
   constructor(private onAudioData: (audioData: Float32Array) => void) {}
 
-  async start() {
+  /**
+   * Starts recording from the microphone
+   */
+  async startRecording() {
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: {
@@ -42,7 +45,10 @@ export class AudioRecorder {
     }
   }
 
-  stop() {
+  /**
+   * Stops recording and releases resources
+   */
+  stopRecording() {
     if (this.source) {
       this.source.disconnect();
       this.source = null;
@@ -60,4 +66,42 @@ export class AudioRecorder {
       this.audioContext = null;
     }
   }
+
+  /**
+   * Encodes audio data for transmission to OpenAI's API
+   */
+  static encodeAudioData(float32Array: Float32Array): string {
+    const int16Array = new Int16Array(float32Array.length);
+    for (let i = 0; i < float32Array.length; i++) {
+      const s = Math.max(-1, Math.min(1, float32Array[i]));
+      int16Array[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    }
+    
+    const uint8Array = new Uint8Array(int16Array.buffer);
+    let binary = '';
+    const chunkSize = 0x8000;
+    
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
+      binary += String.fromCharCode.apply(null, Array.from(chunk));
+    }
+    
+    return btoa(binary);
+  }
+}
+
+// For backward compatibility
+export class AudioRecorder extends AudioProcessor {
+  async start() {
+    return this.startRecording();
+  }
+  
+  stop() {
+    this.stopRecording();
+  }
+}
+
+// For backward compatibility
+export function encodeAudioData(float32Array: Float32Array): string {
+  return AudioProcessor.encodeAudioData(float32Array);
 }
