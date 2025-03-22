@@ -62,8 +62,8 @@ const LandingPage: React.FC = () => {
               </div>
               <div className="md:w-1/2 flex justify-center">
                 <img
-                  src="/lovable-uploads/48a3b789-4f26-44de-9621-c4d8aae7a3bd.png"
-                  alt="Peach Fuzz Color Palette"
+                  src="/lovable-uploads/52963379-9d9a-4a4a-b4fd-80806f40ddcd.png"
+                  alt="Person enjoying healthy food"
                   className="max-w-full h-auto rounded-lg shadow-md border border-accent/50"
                 />
               </div>
