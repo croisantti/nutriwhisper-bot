@@ -6,18 +6,18 @@ import { fetchNutritionResponse } from "@/lib/openai";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { fetchUserPreferences } from "@/services/userPreferences";
-import { fetchChatHistory, saveChatHistory } from "@/services/chatHistory";
+import { fetchChatHistory, saveChatHistory, clearChatHistory } from "@/services/chatHistory";
 import { DEFAULT_SYSTEM_PROMPT, generatePersonalizedPrompt } from "@/constants/prompts";
 
 export const useChatSession = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: uuidv4(),
-      role: "assistant",
-      content: "Hello! I'm NutriWhisper, your AI nutrition assistant. How can I help with your nutrition questions today?",
-      timestamp: new Date(),
-    },
-  ]);
+  const initialMessage: Message = {
+    id: uuidv4(),
+    role: "assistant",
+    content: "Hello! I'm NutriWhisper, your AI nutrition assistant. How can I help with your nutrition questions today?",
+    timestamp: new Date(),
+  };
+  
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingHistory, setIsFetchingHistory] = useState(true);
   const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT);
@@ -113,6 +113,36 @@ export const useChatSession = () => {
     }
   };
 
+  const handleClearChat = async () => {
+    try {
+      if (user) {
+        await clearChatHistory(user.id);
+      }
+      
+      // Reset to initial welcome message
+      const welcomeMessage: Message = {
+        id: uuidv4(),
+        role: "assistant",
+        content: "Chat history cleared. How can I help with your nutrition questions today?",
+        timestamp: new Date(),
+      };
+      
+      setMessages([welcomeMessage]);
+      
+      toast({
+        title: "Success",
+        description: "Chat history has been cleared",
+      });
+    } catch (error) {
+      console.error("Error clearing chat history:", error);
+      toast({
+        title: "Error",
+        description: "Failed to clear chat history",
+        variant: "destructive",
+      });
+    }
+  };
+
   return {
     messages,
     isLoading,
@@ -121,6 +151,7 @@ export const useChatSession = () => {
     userPreferences,
     isSpeaking,
     setIsSpeaking,
-    handleSendMessage
+    handleSendMessage,
+    handleClearChat
   };
 };

@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Message, serializeMessages, deserializeMessages } from "@/lib/types";
 
@@ -74,5 +73,36 @@ export const saveChatHistory = async (userId: string, messages: Message[]) => {
     }
   } catch (error) {
     console.error("Error saving chat history:", error);
+  }
+};
+
+/**
+ * Clear chat history for a user
+ */
+export const clearChatHistory = async (userId: string) => {
+  if (!userId) return;
+
+  try {
+    const { data, error } = await supabase
+      .from('chat_history')
+      .select('id')
+      .eq('user_id', userId)
+      .limit(1)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.error("Error checking chat history:", error);
+      return;
+    }
+
+    if (data) {
+      await supabase
+        .from('chat_history')
+        .delete()
+        .eq('id', data.id);
+    }
+  } catch (error) {
+    console.error("Error clearing chat history:", error);
+    throw error;
   }
 };
