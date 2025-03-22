@@ -2,7 +2,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { Leaf, User } from "lucide-react";
+import { Leaf, User, Volume2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const Navbar = () => {
   const { user, signOut } = useAuth();
@@ -20,6 +21,13 @@ const Navbar = () => {
         <nav className="flex items-center gap-4">
           {user ? (
             <>
+              <Link to="/voice-chat" className="flex items-center gap-1 text-sm hover:text-primary transition-colors">
+                <Volume2 className="h-4 w-4" />
+                Voice Chat
+                <Badge variant="outline" className="ml-1 bg-primary/10 text-primary text-[10px] px-1 py-0 h-4">
+                  BETA
+                </Badge>
+              </Link>
               <Link to="/profile" className="flex items-center gap-1 text-sm">
                 <User className="h-4 w-4" />
                 <span>My Profile</span>

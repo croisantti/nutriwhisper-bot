@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import OnboardingPage from "./pages/OnboardingPage";
 import LandingPage from "./pages/LandingPage";
 import ProfilePage from "./pages/ProfilePage";
+import VoiceChat from "./pages/VoiceChat";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -37,6 +38,14 @@ const App = () => (
                     <Navbar />
                     <Index />
                   </>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/voice-chat"
+              element={
+                <ProtectedRoute>
+                  <VoiceChat />
                 </ProtectedRoute>
               }
             />

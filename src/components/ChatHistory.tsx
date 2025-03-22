@@ -2,7 +2,6 @@
 import React, { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import { Message } from "@/lib/types";
-import VoiceInterface from "./VoiceInterface";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatHistoryProps {
@@ -40,13 +39,6 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   return (
     <ScrollArea className="h-[calc(100vh-280px)] w-full">
       <div className="mx-auto max-w-3xl space-y-4 px-4 py-4">
-        <div className="flex justify-center mb-4">
-          <VoiceInterface 
-            onSpeakingChange={onSpeakingChange} 
-            systemPrompt={systemPrompt}
-          />
-        </div>
-        
         {messages.map((message) => (
           <ChatMessage 
             key={message.id} 
