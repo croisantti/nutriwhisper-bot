@@ -18,7 +18,6 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   systemPrompt 
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   // Function to scroll to bottom of messages
   const scrollToBottom = () => {
@@ -32,28 +31,18 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     scrollToBottom();
   }, [messages]);
 
-  // Initial scroll setup when component mounts
+  // Initial scroll to bottom when component mounts
   useEffect(() => {
-    // Short delay to ensure DOM is fully rendered
-    const timer = setTimeout(() => {
-      scrollToBottom();
-    }, 100);
-
-    return () => clearTimeout(timer);
+    scrollToBottom();
   }, []);
 
   return (
-    <ScrollArea className="h-[calc(100vh-280px)] w-full" ref={scrollAreaRef}>
+    <ScrollArea className="h-[calc(100vh-280px)] w-full">
       <div className="mx-auto max-w-3xl space-y-4 px-4 py-4">
-        <div className="pt-16 pb-4">
-          {/* Significantly increased top padding to ensure first message is fully visible */}
-        </div>
-        
         {messages.map((message) => (
           <ChatMessage 
             key={message.id} 
             message={message} 
-            onSpeakingChange={onSpeakingChange}
           />
         ))}
 
@@ -68,9 +57,6 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
           </div>
         )}
         <div ref={messagesEndRef} />
-        
-        {/* Add bottom padding for better spacing */}
-        <div className="pb-4"></div>
       </div>
     </ScrollArea>
   );

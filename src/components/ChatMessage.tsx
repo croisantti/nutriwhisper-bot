@@ -7,27 +7,19 @@ import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface ChatMessageProps {
   message: Message;
-  onSpeakingChange: (speaking: boolean) => void;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ message, onSpeakingChange }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === "user";
   const { speak, stop, isLoading, isPlaying } = useTextToSpeech();
 
   const handleToggleAudio = () => {
     if (isPlaying) {
       stop();
-      onSpeakingChange(false);
     } else {
       speak(message.content, 'alloy'); // 'alloy' is a default voice
-      onSpeakingChange(true);
     }
   };
-
-  // Update speaking state when isPlaying changes
-  React.useEffect(() => {
-    onSpeakingChange(isPlaying);
-  }, [isPlaying, onSpeakingChange]);
 
   return (
     <div

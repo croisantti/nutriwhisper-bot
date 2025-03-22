@@ -1,10 +1,20 @@
+
 import React from "react";
 import { Leaf } from "lucide-react";
 import ChatContainer from "@/components/ChatContainer";
+
 const Index = () => {
-  return <div className="flex flex-col h-screen bg-gradient-to-b from-background to-secondary/20">
+  return (
+    <div className="flex flex-col h-screen bg-gradient-to-b from-background to-secondary/20">
       <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-md">
-        
+        <div className="container flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+              <Leaf className="h-5 w-5 text-primary" />
+            </div>
+            <span className="text-xl font-medium">NutriWhisper</span>
+          </div>
+        </div>
       </header>
 
       <main className="flex-1 overflow-hidden">
@@ -22,6 +32,8 @@ const Index = () => {
           </p>
         </div>
       </footer>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
