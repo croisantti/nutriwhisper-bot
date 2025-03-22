@@ -44,9 +44,7 @@ const VoiceChat = () => {
 
       <footer className="border-t bg-background py-4">
         <div className="container px-4 text-center text-sm text-muted-foreground">
-          <p>
-            NutriWhisper voice interface is in beta. Results may vary.
-          </p>
+          <p>Yummi voice interface is in beta. Results may vary.</p>
         </div>
       </footer>
     </div>;
