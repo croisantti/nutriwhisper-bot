@@ -39,9 +39,23 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   return (
     <div 
       ref={messagesContainerRef}
-      className="flex-1 overflow-y-auto pb-4 pt-4 flex flex-col-reverse"
+      className="flex-1 overflow-y-auto pb-4 pt-4"
     >
       <div className="mx-auto max-w-3xl space-y-4 px-4">
+        <div className="flex justify-center mb-4">
+          <VoiceInterface 
+            onSpeakingChange={onSpeakingChange} 
+            systemPrompt={systemPrompt}
+          />
+        </div>
+        
+        {messages.map((message) => (
+          <ChatMessage 
+            key={message.id} 
+            message={message} 
+          />
+        ))}
+
         {isLoading && (
           <div className="flex animate-pulse items-start gap-4 p-4">
             <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -52,20 +66,6 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
             </div>
           </div>
         )}
-
-        {messages.slice().reverse().map((message) => (
-          <ChatMessage 
-            key={message.id} 
-            message={message} 
-          />
-        ))}
-
-        <div className="flex justify-center mb-4">
-          <VoiceInterface 
-            onSpeakingChange={onSpeakingChange} 
-            systemPrompt={systemPrompt}
-          />
-        </div>
       </div>
     </div>
   );
